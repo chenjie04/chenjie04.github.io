@@ -1,3 +1,5 @@
+[<img src="./images/home.jpg" width="20">](./index.md)
+***
 # 欢迎来到陈杰的GitHub主页
 
 这是陈杰用来写一些技术博客的，如果能够对大家有用，我将感到万分荣幸！

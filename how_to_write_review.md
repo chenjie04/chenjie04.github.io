@@ -1,7 +1,5 @@
-[<img src="./images/home.jpg" width="48">](./index.md)
-
+[<img src="./images/home.jpg" width="20">](./index.md)
 ***
-
 # 如何写出一篇优秀的文献综述
 
 这是《Nature》杂志为科研老手和菜鸟写的关于如何写出自身领域引人入胜的文献综述的博客（[Nature speaks to old hands and first timers about the work they did to make their reviews sing.](https://www.nature.com/articles/d41586-020-03422-x)）。
@@ -58,5 +56,32 @@
 
 我在2018年的时候作为一名博士研究生写了一篇综述《利用微生物细胞和噬菌体合成无机纳米材料（Biosynthesis of inorganic nanomaterials using microbial cells and bacteriophages）》。这篇综述花费了1年时间才写成了第一稿，因为我一边写综述一边开展自己的博士研究，这一切只靠我自己一个人以及导师的支持。我还花费了1年时间才完成这篇综述的同行评议、修订与发表。在这期间，很多研究工作甚至综述都已经发表了。为了提供最新的和原创的综述，我必须跟上文献的步伐。因此，我使用 Google Scholar，设置每天根据关键词给我发送相关文献的更新。
 
-在我的综述写作过程中，
+在我的综述写作过程中，我也学会了以更开放的态度接受批评，以提高我的作品的价值和读者数量。最初，我的综述只关注于利用细菌等微生物细胞生产纳米材料，这是我博士研究的课题。像这样的细菌被称为生物工厂:也就是说，产生生物材料的有机体可以被修改用于生成有用的材料，如用于药物传递的磁性纳米粒子。然后，当第一次同行评议审稿意见返回时，三个审稿人都表示应该将另一类生物工厂——噬菌体囊括在综述里面。这些本质上是感染细菌的病毒，它们也可以制造纳米材料。
 
+这些反馈最终促使我讨论了各种生物工厂(噬菌体、细菌、真菌和微藻)之间的差异以及它们的优缺点。这些都被证明是一个很好的补充，因为它使得这篇综述更加全面。
+
+写这篇评论也让我想到了用纳米材料修饰的微生物来生产化学物质的想法，我现在还在研究这个方向。
+
+## PAULA MARTIN-GONZALEZ: 充分利用现代科技力量
+
+（PAULA是英国剑桥大学的博士研究生）
+
+就在新冠疫情封锁之前，我和我的博导决定写一篇综述讨论医学影响和基因组学结合的工作以改善卵巢癌的治疗。
+
+当我在研究这篇综述时，我注意到一个趋势，每个领域都有一些论文一直被许多其他论文引用。对我而言，我很清楚地知道这些论文都是很重要的，但是对于那些刚入门综合癌症生物学领域的新手来说，很难快速找到并阅读所有的这些“种子论文”。
+
+因此，我决定写一个小程序来使我的文献研究更加高效，代码我放在了[Github](https://github.com/paulamartingonzalez/Targeted_Literature_Reviews_via_webscraping.git)上。使用我的代码，用户可以输入一个查询关键词，比如“ovarian cancer, computer tomography, radiomics”，程序就会自动查询数据库（如PubMed）中包含这些关键词的相关文献。
+
+然后，程序就会识别相关文献并建立一个查询结果中引用的所有参考文献的引用图。程序会突出查询结果中的高被引论文，这些论文就是比较权威的材料。
+
+我的程序极大地提高了我管理文献的效率，并让我了解了我研究领域的关键出版物和重大发现，否则的话会花费更多的时间和精力。在我在[Github](https://github.com/paulamartingonzalez/Targeted_Literature_Reviews_via_webscraping.git)上分享了我的代码后，我得到的反馈是，对于不习惯编码的研究人员来说，这可能令人生畏。因此，我希望构建一个类似于PubMed或Google Scholar的网页形式的更友好的用户界面，用户可以简单地输入他们的查询来生成引文图表。
+
+## 工具与技术
+
+最后应当学会利用EndNote、Mendeley等文献管理工具以及Manubot、Overleaf等协作写作工具。
+
+### 代码地址
+
+[Github 1：https://github.com/paulamartingonzalez/Targeted_Literature_Reviews_via_webscraping.git](https://github.com/paulamartingonzalez/Targeted_Literature_Reviews_via_webscraping.git)
+
+[Github 2：https://github.com/chenjie04/Targeted_Literature_Reviews_via_webscraping.git](https://github.com/chenjie04/Targeted_Literature_Reviews_via_webscraping.git)
