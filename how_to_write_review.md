@@ -2,9 +2,14 @@
 
 这是《Nature》杂志为科研老手和菜鸟写的关于如何写出自身领域引人入胜的文献综述的博客（[Nature speaks to old hands and first timers about the work they did to make their reviews sing.](https://www.nature.com/articles/d41586-020-03422-x)）。
 
-![文献综述 -w100](https://github.com/chenjie04/chenjie04.github.io/blob/main/images/literature_review/literature_review.jpg)
+![文献综述 -w100](https://github.com/chenjie04/chenjie04.github.io/blob/main/images/literature_review/literature_review.jpg?raw=ture)
 
 文献综述是科研过程中一种很重要的资源，提供了某个领域的历史背景，同时也展示了该领域未来发展方向的一些个人观点。文献综述的撰写还可以激发研究者的灵感，也可以锻炼自己的写作能力。但是少有研究者能够称得上擅长文献综述写作，或者充分理解优秀的综述究竟由哪些内容构成，甚至不知道有哪些软件适合用于协助综述的撰写。因此，《Nature》邀请了一些编辑以及高引综述的科研工作者来分享他们的技巧。
 
 ## WENTING ZHAO: 专注细分领域，避免专业术语
 
+(ZHAO是新加坡南洋理工大学的化学与生物医学工程助理教授)
+
+当我还在读研究生的时候，综述撰写提高了我对自身研究领域的历史背景的理解，同样，我也学到了一些这个领域中可以激发想法的尚未解决的挑战。
+
+比如说，当我在写博士第一篇综述的时候，人类对细胞如何主动感知、如何与给药的纳米粒子交互并适应的认知匮乏使我感到沮丧。但是，这一次经历也激励了我研究如何改变纳米粒子的表面性质以增强细胞的生物感知。后来，在我博士后的时候，这个问题又促使我发现了细胞膜弯曲的作用，最终发表了几篇文章，现在我还在研究这个方向。如果我当时没有写那篇综述，那么我就不会进入这个领域。
