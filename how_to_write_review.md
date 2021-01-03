@@ -1,3 +1,6 @@
+
+[<img src="./images/home.jpg" width="48">](./index.md)
+
 # 如何写出一篇优秀的文献综述
 
 这是《Nature》杂志为科研老手和菜鸟写的关于如何写出自身领域引人入胜的文献综述的博客（[Nature speaks to old hands and first timers about the work they did to make their reviews sing.](https://www.nature.com/articles/d41586-020-03422-x)）。
@@ -53,4 +56,6 @@
 ![YOOJIN](./images/literature_review/d41586-020-03422-x_18645264.jpg)
 
 我在2018年的时候作为一名博士研究生写了一篇综述《利用微生物细胞和噬菌体合成无机纳米材料（Biosynthesis of inorganic nanomaterials using microbial cells and bacteriophages）》。这篇综述花费了1年时间才写成了第一稿，因为我一边写综述一边开展自己的博士研究，这一切只靠我自己一个人以及导师的支持。我还花费了1年时间才完成这篇综述的同行评议、修订与发表。在这期间，很多研究工作甚至综述都已经发表了。为了提供最新的和原创的综述，我必须跟上文献的步伐。因此，我使用 Google Scholar，设置每天根据关键词给我发送相关文献的更新。
+
+在我的综述写作过程中，
 
