@@ -9,3 +9,5 @@
 [3、学习如何使用 MS COCO 数据集](./learning_coco.md)
  
 [4、从零开始构建 YOLO v3 (未完成)](./YOLO_v3.md)
+
+[5、2020年号称新范式的目标检测论文(进行中)](./new_paradigm_for_object_detection_in_2020.md)
