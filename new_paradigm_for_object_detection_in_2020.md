@@ -16,7 +16,7 @@
 
 以往，目标检测模型可以总结为one-stage和two-stage两种范式，但是这两种范式都是基于anchor机制的，anchor为目标检测提供了重要的先验知识，可以视为现代目标检测器的基石。2019年，anchor-free的目标检测工作被提出来，成功革掉了anchor的命，目标检测不再需要繁杂的anchor设计，极大地简化了目标检测流程。进入2020年，目标检测又进一步发展，出现了一批新的检测范式，下面进行简单总结：
 
-### 1、Sparse R-CNN: End-to-End Object Detection with Learnable Proposals
+## 1、Sparse R-CNN: End-to-End Object Detection with Learnable Proposals
 
 Paper: [https://arxiv.org/abs/2011.12450](https://arxiv.org/abs/2011.12450)
 
@@ -24,7 +24,9 @@ Code: [https://github.com/PeizeSun/SparseR-CNN](https://github.com/PeizeSun/Spar
 
 ![](./images/new_paradigm/sparse_r_cnn.PNG)
 
-<center>图 1. 不同目标检测范式的比较</center>
+<center> 图 1. 不同目标检测范式的比较 </center>
+
+## （1）Motivation
 
 作者将现在主流的目标检测算法大概分类两大类：
 
@@ -41,4 +43,8 @@ Code: [https://github.com/PeizeSun/SparseR-CNN](https://github.com/PeizeSun/Spar
 （2）many-to-one 正负样本分配问题。candidates与ground truth不可能一一对应，因此需要处理一个分配正负样本的问题，还需要处理正负样本不均衡的问题。如YOLO v3的训练过程中将与anchor的iou最大的预测框作为正样本，剩下的预测框除去iou超过一定的阈值的其余都作为负样本。
 
 （3）检测器的最终性能严重依赖anchors的设计，包括大小、长宽比、数量等因素，依赖preference points的密度以及RPN等proposal生成方法。
+
+因此，作者希望提出一个sparse detector，从而避免上述问题。
+
+### （2） Sparse R-CNN
 
