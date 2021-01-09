@@ -26,7 +26,7 @@ Code: [https://github.com/PeizeSun/SparseR-CNN](https://github.com/PeizeSun/Spar
 
 <center> 图 1. 不同目标检测范式的比较 </center>
 
-## （1）Motivation
+### （1）Motivation
 
 作者将现在主流的目标检测算法大概分类两大类：
 
