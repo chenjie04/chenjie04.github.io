@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="shortcut icon" href="https://chenjie04.github.io/favicon.ico" type="image/x-icon" /><meta name="viewport"content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/><meta name="apple-mobile-web-app-capable"content="yes"/><meta name="apple-mobile-web-app-status-bar-style"content="black"/><meta name="format-detection"content="telephone=no"/><meta name="renderer"content="webkit"><meta name="description"content="温故而知新"><meta charset="UTF-8"><title>【常用Linux命令】 | chenjie04&#39;s blog</title>
+<link href="https://chenjie04.github.io/styles/main.css" type="text/css" rel="stylesheet" /><link href="https://at.alicdn.com/t/font_1621793_zatzzgvf30g.css" type="text/css" rel="stylesheet" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css"><script async src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.min.js"></script><script src="https://chenjie04.github.io/media/js/magnify.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+<script type="text/javascript">function btn_toggle(){document.getElementById("hn").classList.contains("no-js")?document.getElementById("hn").classList.remove("no-js"):document.getElementById("hn").classList.add("no-js")}</script>
+
+<link rel="canonical" href="https://chenjie04.github.io/post/chang-yong-linux-ming-ling/" />
+</head>
+<body>
+<div class="progress"></div><style>.progress{background:linear-gradient(to right,#87ceeb var(--scroll),transparent 0);background-repeat:no-repeat;position:fixed;width:100%;height:4px;z-index:1}</style><div class="darkmode-background"></div><div class="darkmode-layer"></div>
+<noscript><p class="warn" >本页面需要浏览器支持（启用）JavaScript</p></noscript><div class="header"><div class="logo_title"><div class="title animated fadeInDown"><a href="https://chenjie04.github.io"><img alt="logo" style="display:inline-block;" src="https://chenjie04.github.io/images/avatar.png"/></a><h1 title="chenjie04&#39;s blog" class="weaklink"><a  href="/">chenjie04&#39;s blog</a></h1>
+
+<div class="navbar weaklink">
+<div class="normal_nav">
+<div class="bitcron_nav_container"><div class="bitcron_nav"><div class="bitcron_nav"><div style="display:flex;justify-content:center;"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul></nav>
+<div style="float:right;margin-top:1em"><form id="gridea-search-form" data-update="1578893743252" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="Search..."></form></div><div style="margin-left:0.5em;margin-top:1.2em"><input id="switch_default" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+<div class="clear clear_nav_inline_end"></div></div></div><div class="clear clear_nav_end"></div></div></div><div class="hamberger" href="javascript:void(0)" onclick="btn_toggle();"><i class="iconfont icon-category"></i></div></div></div></div>
+<div id="hn" class="no-js hidden_nav animated fadeInDown"><div class="bitcron_nav_container"><div class="bitcron_nav"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul><div class="clear clear_nav_inline_end"></div></nav></div><div class="clear clear_nav_end"></div></div>
+<div style="display:flex;justify-content:center;inline-block;text-align:center;margin-top:7%"><div><form id="gridea-search-form" data-update="1690208408768" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q"  placeholder="Search..." /></form></div><div style="margin-left:0.5em"><input id="switch_default_h" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+</div></div>
+<script>function enableDarkmode(){document.body.classList.add("darkmode"),document.getElementById("switch_default").checked=1,document.getElementById("switch_default_h").checked=1}function removeDarkmode(){document.body.classList.remove("darkmode"),document.getElementById("switch_default").checked=0,document.getElementById("switch_default_h").checked=0}function getCookie(a){var b,c=new RegExp("(^| )"+a+"=([^;]*)(;|$)");return(b=document.cookie.match(c))?unescape(b[2]):null}cookie=getCookie("darkmode"),"enable"==cookie&&enableDarkmode(),window.matchMedia("(prefers-color-scheme: dark)").matches&&"disable"!==cookie&&(enableDarkmode(),document.cookie="darkmode=enable; path=/");var mobileBtn=function(){1==document.getElementById("switch_default").checked?(enableDarkmode(),document.cookie="darkmode=enable; path=/"):(removeDarkmode(),document.cookie="darkmode=disable; path=/")};</script>
+
+<div class="main"><div class="main-inner"><div class="content">
+<article class="post">
+<h2 class="post_title sm_margin"><a>【常用Linux命令】</a></h2>
+<script>function lan(){if(document.getElementById("lan").innerText=="繁"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_tw.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="简"}else{if(document.getElementById("lan").innerText=="簡"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_cn.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="繁"}}};</script>
+<section class="post_details"><i class="iconfont icon-calendar"></i><span style="margin-right:15px"> 2023-02-22</span><i class="iconfont icon-browse"></i><span style="margin-right:15px"> <span id="busuanzi_value_page_pv"></span> Views</span><i class="iconfont icon-category"></i><span class="weaklink" style="margin-right:15px"></span><i class="iconfont icon-caret-down"></i><span style="margin-right:15px">2591字</span><i class="iconfont icon-naozhong"></i><span style="margin-right:15px">13 min read</span><a id="lan" href="javascript:void(0);"onclick="lan();"title="调整简繁体" style="margin-right:15px;">繁</a>
+</section>
+
+<div style="display:flex">
+<div class="md_block" id="md_block">
+<div class="round-shape-one"></div>
+<h1 id="常用命令">常用命令</h1>
+<hr>
+<p><strong>Ubuntu系统安装Nvidia驱动并配置CUDA</strong></p>
+<p>安装Nvidia驱动</p>
+<pre><code class="language-bash">#打开终端，删除旧的驱动
+$ sudo apt-get purge nvidia*
+
+#禁用自带的 nouveau nvidia驱动
+$ sudo vi /etc/modprobe.d/blacklist.conf
+
+#添加内容
+$ blacklist nouveau
+$ options nouveau modeset=0
+
+#更新系统修改
+$ sudo update-initramfs -u
+
+#然后重启
+$ reboot
+
+#验证nouveau是否已经禁用,若无任何输出则禁用成功
+$ lsmod | grep nouveau
+
+#英伟达官网下载对应的英伟达显卡驱动
+#ctrl+alt+f1到6其中一个进入命令行界面, 此时需要login：电脑账户名称，password：密码，登录到命令行界面。
+
+#关闭图形界面
+$ sudo systemctl stop gdm #或者lightdm，看自己系统装的啥，Ubuntu装的是gdm
+
+#卸载系统中存在的显卡驱动
+$ sudo apt-get remove nvidia-*
+
+#或者
+$ sudo apt-get purge nvidia*
+
+#给文件权限
+
+$ sudo chmod a+x NVIDIA-Linux-x86_64-xxx.run
+
+#运行run文件
+$ sudo ./NVIDIA-Linux-x86_64-xxx.run -no-x-check -no-nouveau-check
+
+#其中：
+#-no-x-check：安装驱动时关闭X服务
+#-no-nouveau-check：安装驱动时禁用nouveau
+
+
+#在安装过程中会出现：
+#安装过程中出现的提示缺少32位库直接ok
+
+#重启图形界面，安装成功后，在命令行输入
+$ sudo systemctl start gdm
+
+#按Ctrl+Alt+F7返回图形界面
+
+#检测是否安装成功
+$ nvidia-smi
+
+#到此驱动就安装好了。
+</code></pre>
+<p>配置CUDA</p>
+<p>到官网找到对应的cuda，按照教程按照</p>
+<pre><code class="language-bash">#建议在Windows上用迅雷下载好再拷过去
+$ wget https://developer.download.nvidia.com/compute/cuda/11.7.1/local_installers/cuda_11.7.1_515.65.01_linux.run
+
+#运行
+$ sudo sh cuda_11.7.1_515.65.01_linux.run
+</code></pre>
+<p>另外，在安装过程中一般选择不安装驱动，安装成功后提示</p>
+<pre><code class="language-bash">===========
+= Summary =
+===========
+
+Driver:   Not Selected
+Toolkit:  Installed in /usr/local/cuda-11.7/
+Samples:  Installed in /home/klchang/, but missing recommended libraries
+
+Please make sure that
+ -   PATH includes /usr/local/cuda-11.7/bin
+ -   LD_LIBRARY_PATH includes /usr/local/cuda-11.7/lib64, or, add /usr/local/cuda-11.7/lib64 to /etc/ld.so.conf and run ldconfig as root
+
+To uninstall the CUDA Toolkit, run cuda-uninstaller in /usr/local/cuda-11.7/bin
+***WARNING: Incomplete installation! This installation did not install the CUDA Driver. A driver of version at least .00 is required for CUDA 11.7 functionality to work.
+To install the driver using this installer, run the following command, replacing &lt;CudaInstaller&gt; with the name of this run file:
+    sudo &lt;CudaInstaller&gt;.run --silent --driver
+
+Logfile is /var/log/cuda-installer.log
+</code></pre>
+<p>安装结束后，添加环境变量到 ~/.bashrc 文件的末尾，具体添加内容如下：</p>
+<pre><code class="language-bash">$ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda/lib64
+$ export PATH=$PATH:/usr/local/cuda/bin
+$ export CUDA_HOME=$CUDA_HOME:/usr/local/cuda
+</code></pre>
+<p>保存后退出。</p>
+<p>在 Terminal 中，激活环境变量命令为 <strong>source ~/.bashrc</strong> 。</p>
+<p>测试 CUDA Toolkit 。 通过编译自带 Samples并执行， 以验证是否安装成功。具体命令如下所示：</p>
+<pre><code class="language-bash">$ cd /usr/local/cuda/samples/1_Utilities/deviceQuery
+$ sudo make
+$ ./deviceQuery
+</code></pre>
+<p>如果安装成功，则输出类似于如下信息：</p>
+<pre><code class="language-bash">./deviceQuery Starting...
+
+ CUDA Device Query (Runtime API) version (CUDART static linking)
+
+Detected 1 CUDA Capable device(s)
+
+Device 0: &quot;GeForce RTX 2070 with Max-Q Design&quot;
+  CUDA Driver Version / Runtime Version          11.7 / 11.7
+  CUDA Capability Major/Minor version number:    7.5
+  Total amount of global memory:                 7982 MBytes (8370061312 bytes)
+  (36) Multiprocessors, ( 64) CUDA Cores/MP:     2304 CUDA Cores
+  GPU Max Clock rate:                            1125 MHz (1.12 GHz)
+  Memory Clock rate:                             5501 Mhz
+  Memory Bus Width:                              256-bit
+  L2 Cache Size:                                 4194304 bytes
+  Maximum Texture Dimension Size (x,y,z)         1D=(131072), 2D=(131072, 65536), 3D=(16384, 16384, 16384)
+  Maximum Layered 1D Texture Size, (num) layers  1D=(32768), 2048 layers
+  Maximum Layered 2D Texture Size, (num) layers  2D=(32768, 32768), 2048 layers
+  Total amount of constant memory:               65536 bytes
+  Total amount of shared memory per block:       49152 bytes
+  Total number of registers available per block: 65536
+  Warp size:                                     32
+  Maximum number of threads per multiprocessor:  1024
+  Maximum number of threads per block:           1024
+  Max dimension size of a thread block (x,y,z): (1024, 1024, 64)
+  Max dimension size of a grid size    (x,y,z): (2147483647, 65535, 65535)
+  Maximum memory pitch:                          2147483647 bytes
+  Texture alignment:                             512 bytes
+  Concurrent copy and kernel execution:          Yes with 3 copy engine(s)
+  Run time limit on kernels:                     Yes
+  Integrated GPU sharing Host Memory:            No
+  Support host page-locked memory mapping:       Yes
+  Alignment requirement for Surfaces:            Yes
+  Device has ECC support:                        Disabled
+  Device supports Unified Addressing (UVA):      Yes
+  Device supports Managed Memory:                Yes
+  Device supports Compute Preemption:            Yes
+  Supports Cooperative Kernel Launch:            Yes
+  Supports MultiDevice Co-op Kernel Launch:      Yes
+  Device PCI Domain ID / Bus ID / location ID:   0 / 1 / 0
+  Compute Mode:
+     &lt; Default (multiple host threads can use ::cudaSetDevice() with device simultaneously) &gt;
+
+deviceQuery, CUDA Driver = CUDART, CUDA Driver Version = 11.7, CUDA Runtime Version = 11.7, NumDevs = 1
+Result = PASS
+</code></pre>
+<p>下载并安装 cuDNN</p>
+<p>从 NVIDIA 官方网址  <a href="https://developer.nvidia.com/rdp/cudnn-download">https://developer.nvidia.com/rdp/cudnn-download</a> 下载 cudnn-linux-x86_64-8.6.0.163_cuda11-archive.tar.xz。</p>
+<p>解压压缩包，并把相应的文件，复制到指定目录即可。如下所示：</p>
+<pre><code class="language-bash"># Unzip the cuDNN package.
+$ tar -xvf cudnn-linux-x86_64-8.x.x.x_cudaX.Y-archive.tar.xz
+
+# Copy the following files into the CUDA toolkit directory.
+$ sudo cp cudnn-*-archive/include/cudnn*.h /usr/local/cuda/include 
+$ sudo cp -P cudnn-*-archive/lib/libcudnn* /usr/local/cuda/lib64 
+$ sudo chmod a+r /usr/local/cuda/include/cudnn*.h /usr/local/cuda/lib64/libcudnn*
+</code></pre>
+<p><strong>Ubuntu新建用户并添加管理员权限：</strong></p>
+<pre><code class="language-bash"># 先修改新建用户的目录权限，使其他人无权限进入
+$ sudo vim /etc/adduser.conf
+
+# 找到以下内容
+# If DIR_MODE is set, directories will be created with the specified
+# mode. Otherwise the default mode 0755 will be used.
+DIR_MODE=0755 
+# 将0755改为0750
+DIR_MODE=0750
+
+
+# 新建用户
+$ sudo adduser username
+# 按照提示输入密码等
+
+# 如有必要将用户设为管理员（注意只能将有Linux使用经验且可信任的用户设为管理员）
+$ sudo adduser username sudo # 即将username加入sudo组
+</code></pre>
+<p><strong>Tmux简单使用教程</strong></p>
+<p>起因：以前在训练神经网络时，我喜欢使用 nohup 命令将程序挂到后台运行，这样即便关闭命令行窗口也不会中断训练，训练过程还可以在自己当前目录下的nohup.out文件中查看，nohup 命令如下：</p>
+<pre><code class="language-bash"># nohup表示不挂断运行命令，&amp;符号表示在后台运行
+$ nohup python tools/train.py configs/yolox/yolox_s_8x8_300e_VOC.py &amp;
+</code></pre>
+<p>后来，在多卡并行训练模型的时候，上面这种方式出现错误，报错如下：</p>
+<pre><code class="language-bash">WARNING:torch.distributed.elastic.agent.server.api:Received 1 death signal, shutting down workers
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 4156332 closing signal SIGHUP
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 4156333 closing signal SIGHUP
+Traceback (most recent call last):
+File &quot;/home/user2/anaconda3/envs/mmlab/lib/python3.7/runpy.py&quot;, line 193, in _run_module_as_main
+&quot;main&quot;, mod_spec)
+File &quot;/home/user2/anaconda3/envs/mmlab/lib/python3.7/runpy.py&quot;, line 85, in _run_code
+exec(code, run_globals)
+File &quot;/home/user2/anaconda3/envs/mmlab/lib/python3.7/site-packages/torch/distributed/launch.py&quot;, line 193, in
+main()
+File &quot;/home/user2/anaconda3/envs/mmlab/lib/python3.7/site-packages/torch/distributed/launch.py&quot;, line 189, in main
+launch(args)
+File &quot;/home/user2/anaconda3/envs/mmlab/lib/python3.7/site-packages/torch/distributed/launch.py&quot;, line 174, in launch
+run(args)
+File &quot;/home/user2/anaconda3/envs/mmlab/lib/python3.7/site-packages/torch/distributed/run.py&quot;, line 713, in run
+)(cmd_args)
+File &quot;/home/user2/anaconda3/envs/mmlab/lib/python3.7/site-packages/torch/distributed/launcher/api.py&quot;, line 131, in call
+return launch_agent(self._config, self._entrypoint, list(args))
+File &quot;/home/user2/anaconda3/envs/mmlab/lib/python3.7/site-packages/torch/distributed/launcher/api.py&quot;, line 252, in launch_agent
+result = agent.run()
+File &quot;/home/user2/anaconda3/envs/mmlab/lib/python3.7/site-packages/torch/distributed/elastic/metrics/api.py&quot;, line 125, in wrapper
+result = f(args, **kwargs)
+File &quot;/home/user2/anaconda3/envs/mmlab/lib/python3.7/site-packages/torch/distributed/elastic/agent/server/api.py&quot;, line 709, in run
+result = self._invoke_run(role)
+File &quot;/home/user2/anaconda3/envs/mmlab/lib/python3.7/site-packages/torch/distributed/elastic/agent/server/api.py&quot;, line 843, in _invoke_run
+time.sleep(monitor_interval)
+File &quot;/home/user2/anaconda3/envs/mmlab/lib/python3.7/site-packages/torch/distributed/elastic/multiprocessing/api.py&quot;, line 60, in _terminate_process_handler
+raise SignalException(f&quot;Process {os.getpid()} got signal: {sigval}&quot;, sigval=sigval)
+torch.distributed.elastic.multiprocessing.api.SignalException: Process 4156314 got signal: 1
+</code></pre>
+<p>有人在他的博客 <a href="https://www.cnblogs.com/gy77/p/16746769.html">nohup训练pytorch模型时的报错以及tmux的简单使用 - gy77 - 博客园</a> 中说这是nohup的bug，我们可以使用tmux来替换nohup。</p>
+<p>那使用tmux吧</p>
+<pre><code class="language-bash">$ sudo apt-get install tmux   # 安装
+$ tmux                        # 进入tmux窗口
+$ exit                        # 推出tmux窗口，或者使用快捷键[ Ctrl+d ]
+$ tmux new -s ${session-name} # 创建一个会话，并设置绘画名
+# 快捷键[ Ctrl+b ] 是tmux的前缀键，用完前缀键后可以继续按指定键来完成指定命令
+# [ Ctrl+b ] [ d ]                         # 将会话与窗口分离，或者[ Ctrl+b ] tmux detach
+$ tmux ls                                  # 查看所有会话，或者使用tmux list-session
+$ tmux attach -t ${session-name}           #  根据会话名将terminal窗口接入会话
+$ tmux kill-session -t ${session-name}     #  根据会话名杀死会话
+$ tmux switch -t ${session-name}           # 根据会话名切换会话
+$ tmux rename-session -t 0 ${session-name} # 根据会话名，重命名会话
+</code></pre>
+<p><strong>注意：</strong> 尤其需要注意的是离开会话的时候，可能这时候我们的程序在跑着，没办法输入 tmux detach 命令离开，这时候必须用快捷键[ Ctrl+b ] [ d ] 就是先按Ctrl+b，然后按d键</p>
+<p>tmux的一个简单使用流程</p>
+<pre><code class="language-bash">[terminal]: tmux new -s train_model       # 创建一个会话，并设置绘画名:train_model
+[tmux]: conda activate env_name           # 在tmux会话中，我们激活我们要使用的conda环境
+[tmux]: python train.py                   # 在tmux会话中，开始训练我们的模型
+[tmux]: [ Ctrl+b ] [ d ]                  # 将会话与窗口分离
+[terminal]: tmux ls                       # 查看我们刚刚创建的会话
+[terminal]: watch -n 1 -c gpustat --color # 监控我们的gpu信息
+</code></pre>
+<p>使用tmux遇到第一个问题：<strong>在tmux窗口鼠标不能滚动</strong></p>
+<p>解决方案：</p>
+<p>按完前缀ctrl+B后，再按冒号：进入命令行模式，<br>
+输入以下命令：</p>
+<pre><code class="language-bash">set -g mouse on # 要永久设置就在~/.tmux.conf文件写入该命令
+</code></pre>
+<p>使用tmux遇到第二个问题：<strong>在tmux窗口不能复制粘贴</strong></p>
+<p>解决方案：</p>
+<pre><code class="language-bash">Step1. 按住shift，鼠标左键选择内容
+
+Step2. Ctrl + Shift+C复制
+
+Step3. Ctrl+V
+</code></pre>
+<p><strong>mmdetection运行 dist_train.sh 文件报 Address already in use 错误</strong></p>
+<p>其实原因是一台机子上跑了两个 mmdetection 代码导致节点冲突，我已经运行了一个dist_train任务，启动第二个任务的时候就报错了</p>
+<p>解决方案：</p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+
+CONFIG=$1
+GPUS=$2
+NNODES=${NNODES:-1}
+NODE_RANK=${NODE_RANK:-0}
+#将这个默认端口改成一个没有被占用的就行，
+#比如我现在只运行了一个dist_train任务，只占用了29500，那我就改成29501
+PORT=${PORT:-29500} 
+MASTER_ADDR=${MASTER_ADDR:-&quot;127.0.0.1&quot;}
+
+PYTHONPATH=&quot;$(dirname $0)/..&quot;:$PYTHONPATH \
+python -m torch.distributed.launch \
+    --nnodes=$NNODES \
+    --node_rank=$NODE_RANK \
+    --master_addr=$MASTER_ADDR \
+    --nproc_per_node=$GPUS \
+    --master_port=$PORT \
+    $(dirname &quot;$0&quot;)/train.py \
+    $CONFIG \
+    --seed 0 \
+    --launcher pytorch ${@:3}
+</code></pre>
+<p><strong>安装并使用Zsh</strong></p>
+<p>1.安装</p>
+<pre><code class="language-bash">$ sudo apt-get install zsh
+</code></pre>
+<p>2.安装oh-my-zsh</p>
+<pre><code class="language-bash">$ wget https://ghproxy.com/https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+$ sh install.sh
+</code></pre>
+<p>3.设置主题</p>
+<pre><code class="language-bash">$ vim ~/.zshrc
+# 找到主题设置
+ZSH_THEME=&quot;robbyrussell&quot; 改为ZSH_THEME=&quot;bira&quot;
+</code></pre>
+<p>4.配置自动补全</p>
+<pre><code class="language-bash">$ git clone https://ghproxy.com/https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+
+# 编辑.zshrc文件（找到plugins=(git)这一行，如果没有添加。更改为如下）
+
+plugins=(git zsh-autosuggestions)
+</code></pre>
+<p>5.设置为默认shell</p>
+<pre><code class="language-bash">$ chsh -s /bin/zsh #如果要改回默认：chsh -s /bin/bash
+</code></pre>
+<p>6.将tmux窗口的shell也配置为zsh</p>
+<p>按完前缀ctrl+B后，再按冒号：进入命令行模式，<br>
+输入以下命令后回车：</p>
+<pre><code class="language-bash">set -g default-command /bin/zsh
+</code></pre>
+
+<span id="footnote"></span>
+<div id = "warn"></div>
+</div>
+<div class="toc-container"><ul class="markdownIt-TOC">
+<li><a href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4">常用命令</a></li>
+</ul>
+</div>
+</div>
+<div id="fullPage"><canvas id="canvas"></canvas></div>
+</article>
+<div id="eof"><span>EOF</span></div><div class="round-shape-one"></div>
+<section>
+<div class="doc_comments">
+
+	  
+		<div id="gitalk-container"></div>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/qyxtim/Static@3.8/gitalk.min.js"></script><link href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.css"rel="stylesheet"><script>var gitalk=new Gitalk({clientID:"e92872ae2da2976f32ca",clientSecret:"966ed19d803936e67d1eff80ec616cb4f6c2d57d",repo:"chenjie04.github.io",owner:"chenjie04",admin:["chenjie04"],id:(location.pathname).substring(0, 49),distractionFreeMode:false});gitalk.render("gitalk-container");</script>
+	  
+		  
+	  
+
+</div></section>
+</div></div></div><script>
+"use strict";!function(){for(var n=document.getElementsByTagName("pre"),e=n.length,s=0;s<e;s++){n[s].innerHTML='<span class="line-number"></span>'+n[s].innerHTML+'<span class="cl"></span>';for(var a=n[s].innerHTML.split(/\n/).length,r=0;r<a-1;r++){n[s].getElementsByTagName("span")[0].innerHTML+="<span>"+(r+1)+"</span>"}}}();
+let mainNavLinks=document.querySelectorAll(".markdownIt-TOC a");window.addEventListener("scroll",event=>{let fromTop=window.scrollY;mainNavLinks.forEach((link,index)=>{let section=document.getElementById(decodeURI(link.hash).substring(1));let nextSection=null
+if(mainNavLinks[index+1]){nextSection=document.getElementById(decodeURI(mainNavLinks[index+1].hash).substring(1));}
+if(section.offsetTop<=fromTop){if(nextSection){if(nextSection.offsetTop>fromTop){link.classList.add("currentToc");}else{link.classList.remove("currentToc");}}else{link.classList.add("currentToc");}}else{link.classList.remove("currentToc");}});});
+var h=document.documentElement,b=document.body,st="scrollTop",sh="scrollHeight",progress=document.querySelector(".progress"),scroll;document.addEventListener("scroll",function(){scroll=(h[st]||b[st])/((h[sh]||b[sh])-h.clientHeight)*100;progress.style.setProperty("--scroll",scroll+"%")});
+var wxScale=new WxScale({fullPage:document.querySelector("#fullPage"),canvas:document.querySelector("#canvas")});var imgBox=document.querySelectorAll("#md_block img");for(var i=0;i<imgBox.length;i++){imgBox[i].onclick=function(e){wxScale.start(this)}};
+</script>
+<a id="scrollUp" href="#top" style="position: fixed; z-index: 2147483647; display: block;"></a><div class="footer animated fadeInDown"><div class="site_footer"><div class="mysocials"><div class="my_socials"></div></div><div class="copyright"id="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>Copyright © 2018-2020 <a href="https://chenjie04.github.io" style="margin:0;">chenjie04&#39;s blog</a>.</div>
+<span style="display: inline;margin-right:15px;">👁<strong><span id="busuanzi_value_site_uv"></span></strong></span><span id="busuanzi_container_page_pv" style="display: inline;"><span>📚<strong>31</strong> posts</span></div></div>
+<script>
+console.log("\n %c \u26a1Theme: Bitcron-pro Author's Blog:https://blog.blinkstar.cn  Writen By Serence  \n\n", "color: #ffffff; background: rgba(49, 49, 49, 0.85); padding:5px 0;border-radius:5px;", );
+</script>
+<script src="https://cdn.jsdelivr.net/npm/instant.page@3.0.0/instantpage.min.js" type="module" defer></script>
+<script type="text/javascript" async src="https://chenjie04.github.io/media/js/prism.js"></script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="shortcut icon" href="https://chenjie04.github.io/favicon.ico" type="image/x-icon" /><meta name="viewport"content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/><meta name="apple-mobile-web-app-capable"content="yes"/><meta name="apple-mobile-web-app-status-bar-style"content="black"/><meta name="format-detection"content="telephone=no"/><meta name="renderer"content="webkit"><meta name="description"content="温故而知新"><meta charset="UTF-8"><title>mmdetection-3.x学习笔记——测试和训练相关配置（schedule_1x.py） | chenjie04&#39;s blog</title>
+<link href="https://chenjie04.github.io/styles/main.css" type="text/css" rel="stylesheet" /><link href="https://at.alicdn.com/t/font_1621793_zatzzgvf30g.css" type="text/css" rel="stylesheet" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css"><script async src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.min.js"></script><script src="https://chenjie04.github.io/media/js/magnify.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+<script type="text/javascript">function btn_toggle(){document.getElementById("hn").classList.contains("no-js")?document.getElementById("hn").classList.remove("no-js"):document.getElementById("hn").classList.add("no-js")}</script>
+
+<link rel="canonical" href="https://chenjie04.github.io/post/mmdetection-3x-xue-xi-bi-ji-ce-shi-he-xun-lian-xiang-guan-pei-zhi-schedule_1xpy/" />
+</head>
+<body>
+<div class="progress"></div><style>.progress{background:linear-gradient(to right,#87ceeb var(--scroll),transparent 0);background-repeat:no-repeat;position:fixed;width:100%;height:4px;z-index:1}</style><div class="darkmode-background"></div><div class="darkmode-layer"></div>
+<noscript><p class="warn" >本页面需要浏览器支持（启用）JavaScript</p></noscript><div class="header"><div class="logo_title"><div class="title animated fadeInDown"><a href="https://chenjie04.github.io"><img alt="logo" style="display:inline-block;" src="https://chenjie04.github.io/images/avatar.png"/></a><h1 title="chenjie04&#39;s blog" class="weaklink"><a  href="/">chenjie04&#39;s blog</a></h1>
+
+<div class="navbar weaklink">
+<div class="normal_nav">
+<div class="bitcron_nav_container"><div class="bitcron_nav"><div class="bitcron_nav"><div style="display:flex;justify-content:center;"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul></nav>
+<div style="float:right;margin-top:1em"><form id="gridea-search-form" data-update="1578893743252" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="Search..."></form></div><div style="margin-left:0.5em;margin-top:1.2em"><input id="switch_default" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+<div class="clear clear_nav_inline_end"></div></div></div><div class="clear clear_nav_end"></div></div></div><div class="hamberger" href="javascript:void(0)" onclick="btn_toggle();"><i class="iconfont icon-category"></i></div></div></div></div>
+<div id="hn" class="no-js hidden_nav animated fadeInDown"><div class="bitcron_nav_container"><div class="bitcron_nav"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul><div class="clear clear_nav_inline_end"></div></nav></div><div class="clear clear_nav_end"></div></div>
+<div style="display:flex;justify-content:center;inline-block;text-align:center;margin-top:7%"><div><form id="gridea-search-form" data-update="1690208408768" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q"  placeholder="Search..." /></form></div><div style="margin-left:0.5em"><input id="switch_default_h" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+</div></div>
+<script>function enableDarkmode(){document.body.classList.add("darkmode"),document.getElementById("switch_default").checked=1,document.getElementById("switch_default_h").checked=1}function removeDarkmode(){document.body.classList.remove("darkmode"),document.getElementById("switch_default").checked=0,document.getElementById("switch_default_h").checked=0}function getCookie(a){var b,c=new RegExp("(^| )"+a+"=([^;]*)(;|$)");return(b=document.cookie.match(c))?unescape(b[2]):null}cookie=getCookie("darkmode"),"enable"==cookie&&enableDarkmode(),window.matchMedia("(prefers-color-scheme: dark)").matches&&"disable"!==cookie&&(enableDarkmode(),document.cookie="darkmode=enable; path=/");var mobileBtn=function(){1==document.getElementById("switch_default").checked?(enableDarkmode(),document.cookie="darkmode=enable; path=/"):(removeDarkmode(),document.cookie="darkmode=disable; path=/")};</script>
+
+<div class="main"><div class="main-inner"><div class="content">
+<article class="post">
+<h2 class="post_title sm_margin"><a>mmdetection-3.x学习笔记——测试和训练相关配置（schedule_1x.py）</a></h2>
+<script>function lan(){if(document.getElementById("lan").innerText=="繁"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_tw.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="简"}else{if(document.getElementById("lan").innerText=="簡"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_cn.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="繁"}}};</script>
+<section class="post_details"><i class="iconfont icon-calendar"></i><span style="margin-right:15px"> 2023-03-28</span><i class="iconfont icon-browse"></i><span style="margin-right:15px"> <span id="busuanzi_value_page_pv"></span> Views</span><i class="iconfont icon-category"></i><span class="weaklink" style="margin-right:15px">	<a href="https://chenjie04.github.io/tag/MzsbKaVdP/" class="tag">mmdetection-3.x</a></span><i class="iconfont icon-caret-down"></i><span style="margin-right:15px">680字</span><i class="iconfont icon-naozhong"></i><span style="margin-right:15px">3 min read</span><a id="lan" href="javascript:void(0);"onclick="lan();"title="调整简繁体" style="margin-right:15px;">繁</a>
+</section>
+
+<div style="display:flex">
+<div class="md_block" id="md_block">
+<div class="round-shape-one"></div>
+<p>MMEngine 的 Runner 使用 Loop 来控制训练，验证和测试过程。 用户可以使用这些字段设置最大训练轮次和验证间隔。</p>
+<pre><code class="language-python"># training schedule for 1x
+train_cfg = dict(
+    type='EpochBasedTrainLoop',  # 训练循环的类型，基于epoch进行训练
+    max_epochs=12,  # 最大训练轮次
+    val_interval=1) # 验证间隔。每个 epoch 验证一次
+val_cfg = dict(type='ValLoop') # 验证循环的类型
+test_cfg = dict(type='TestLoop') # 测试循环的类型
+
+# 注意：在模型的配置文件里也存在train_cfg和test_cfg，
+# 那是用于配置模型在训练阶段和测试阶段的相关超参数的，
+# 如训练时的正负样本分配策略（MaxIoUAssigner）、测试阶段的非极大值抑制等
+
+# learning rate
+param_scheduler = [ # 超参数调度器
+    dict(
+        type='LinearLR',   # 使用线性学习率预热
+        start_factor=0.001,  # 学习率预热的系数，好像是用来计算初始学习率的，
+                                    # 即base_lr * start_factor
+        by_epoch=False,   # 按 iteration 更新预热学习率
+        begin=0,  # 从第一个 iteration 开始
+        end=500), # 到第 500 个 iteration 结束
+    dict(
+        type='MultiStepLR',  # 在训练过程中使用 multi step 学习率策略
+        begin=0, # 从第一个 epoch 开始
+        end=12, # 到第 12 个 epoch 结束
+        by_epoch=True, # 按 epoch 更新学习率
+        milestones=[8, 11], # 在哪几个 epoch 进行学习率衰减
+        gamma=0.1) # 学习率衰减系数, 即 lr * gamma
+]
+
+# optimizer
+optim_wrapper = dict( # 优化器封装的配置
+    type='OptimWrapper', # 优化器封装的类型。可以切换至 AmpOptimWrapper 来启用混合精度训练
+    # 如果你想要使用 BF16，请取消下面一行的代码注释
+    # dtype='float16',  # 可用值： ('float16', 'bfloat16', None)
+    # 警告：截止到 PyTorch 1.13 版本，在 Convolution 中直接使用 torch.bfloat16 性能低下，
+    # 必须手动设置环境变量 TORCH_CUDNN_V8_API_ENABLED=1 
+    # 以启用 CuDNN 版本的 BF16 Convolution。相关讨论见 PyTorch Issue
+    optimizer=dict( # 优化器配置。支持 PyTorch 的各种优化器。
+        # 请参考 https://pytorch.org/docs/stable/optim.html#algorithms
+        type='SGD',    # 随机梯度下降优化器
+        lr=0.02,  # 基础学习率
+        momentum=0.9,  # 带动量的随机梯度下降
+        weight_decay=0.0001)) # 权重衰减
+
+# Default setting for scaling LR automatically
+#   - `enable` means enable scaling LR automatically
+#       or not by default.
+#   - `base_batch_size` = (8 GPUs) x (2 samples per GPU).
+auto_scale_lr = dict(enable=False, base_batch_size=16) # 学习率自动缩放
+# 在配置文件中的学习率是在 8 块 GPU，每块 GPU 有 2 张图像（批大小为 8*2=16）的情况下设置的。
+# 如果启用该功能，则会根据机器的GPU数量和训练的批次大小对学习率进行自动缩放，
+# 缩放方式详见 线性扩展规则 ，比如：在 8 块 GPU 并且每张 GPU 上有 2 张图片的情况下 lr=0.01，# 那么在 16 块 GPU 并且每张 GPU 上有 4 张图片的情况下, LR 会自动缩放至lr=0.04。
+
+</code></pre>
+
+<span id="footnote"></span>
+<div id = "warn"></div>
+</div>
+<div class="toc-container"></div>
+</div>
+<div id="fullPage"><canvas id="canvas"></canvas></div>
+</article>
+<div id="eof"><span>EOF</span></div><div class="round-shape-one"></div>
+<section>
+<div class="doc_comments">
+
+	  
+		<div id="gitalk-container"></div>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/qyxtim/Static@3.8/gitalk.min.js"></script><link href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.css"rel="stylesheet"><script>var gitalk=new Gitalk({clientID:"e92872ae2da2976f32ca",clientSecret:"966ed19d803936e67d1eff80ec616cb4f6c2d57d",repo:"chenjie04.github.io",owner:"chenjie04",admin:["chenjie04"],id:(location.pathname).substring(0, 49),distractionFreeMode:false});gitalk.render("gitalk-container");</script>
+	  
+		  
+	  
+
+</div></section>
+</div></div></div><script>
+"use strict";!function(){for(var n=document.getElementsByTagName("pre"),e=n.length,s=0;s<e;s++){n[s].innerHTML='<span class="line-number"></span>'+n[s].innerHTML+'<span class="cl"></span>';for(var a=n[s].innerHTML.split(/\n/).length,r=0;r<a-1;r++){n[s].getElementsByTagName("span")[0].innerHTML+="<span>"+(r+1)+"</span>"}}}();
+let mainNavLinks=document.querySelectorAll(".markdownIt-TOC a");window.addEventListener("scroll",event=>{let fromTop=window.scrollY;mainNavLinks.forEach((link,index)=>{let section=document.getElementById(decodeURI(link.hash).substring(1));let nextSection=null
+if(mainNavLinks[index+1]){nextSection=document.getElementById(decodeURI(mainNavLinks[index+1].hash).substring(1));}
+if(section.offsetTop<=fromTop){if(nextSection){if(nextSection.offsetTop>fromTop){link.classList.add("currentToc");}else{link.classList.remove("currentToc");}}else{link.classList.add("currentToc");}}else{link.classList.remove("currentToc");}});});
+var h=document.documentElement,b=document.body,st="scrollTop",sh="scrollHeight",progress=document.querySelector(".progress"),scroll;document.addEventListener("scroll",function(){scroll=(h[st]||b[st])/((h[sh]||b[sh])-h.clientHeight)*100;progress.style.setProperty("--scroll",scroll+"%")});
+var wxScale=new WxScale({fullPage:document.querySelector("#fullPage"),canvas:document.querySelector("#canvas")});var imgBox=document.querySelectorAll("#md_block img");for(var i=0;i<imgBox.length;i++){imgBox[i].onclick=function(e){wxScale.start(this)}};
+</script>
+<a id="scrollUp" href="#top" style="position: fixed; z-index: 2147483647; display: block;"></a><div class="footer animated fadeInDown"><div class="site_footer"><div class="mysocials"><div class="my_socials"></div></div><div class="copyright"id="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>Copyright © 2018-2020 <a href="https://chenjie04.github.io" style="margin:0;">chenjie04&#39;s blog</a>.</div>
+<span style="display: inline;margin-right:15px;">👁<strong><span id="busuanzi_value_site_uv"></span></strong></span><span id="busuanzi_container_page_pv" style="display: inline;"><span>📚<strong>31</strong> posts</span></div></div>
+<script>
+console.log("\n %c \u26a1Theme: Bitcron-pro Author's Blog:https://blog.blinkstar.cn  Writen By Serence  \n\n", "color: #ffffff; background: rgba(49, 49, 49, 0.85); padding:5px 0;border-radius:5px;", );
+</script>
+<script src="https://cdn.jsdelivr.net/npm/instant.page@3.0.0/instantpage.min.js" type="module" defer></script>
+<script type="text/javascript" async src="https://chenjie04.github.io/media/js/prism.js"></script>
+</body>
+</html>

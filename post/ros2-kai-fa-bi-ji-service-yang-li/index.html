@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="shortcut icon" href="https://chenjie04.github.io/favicon.ico" type="image/x-icon" /><meta name="viewport"content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/><meta name="apple-mobile-web-app-capable"content="yes"/><meta name="apple-mobile-web-app-status-bar-style"content="black"/><meta name="format-detection"content="telephone=no"/><meta name="renderer"content="webkit"><meta name="description"content="温故而知新"><meta charset="UTF-8"><title>ROS2开发笔记——service样例（三） | chenjie04&#39;s blog</title>
+<link href="https://chenjie04.github.io/styles/main.css" type="text/css" rel="stylesheet" /><link href="https://at.alicdn.com/t/font_1621793_zatzzgvf30g.css" type="text/css" rel="stylesheet" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css"><script async src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.min.js"></script><script src="https://chenjie04.github.io/media/js/magnify.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+<script type="text/javascript">function btn_toggle(){document.getElementById("hn").classList.contains("no-js")?document.getElementById("hn").classList.remove("no-js"):document.getElementById("hn").classList.add("no-js")}</script>
+
+<link rel="canonical" href="https://chenjie04.github.io/post/ros2-kai-fa-bi-ji-service-yang-li/" />
+</head>
+<body>
+<div class="progress"></div><style>.progress{background:linear-gradient(to right,#87ceeb var(--scroll),transparent 0);background-repeat:no-repeat;position:fixed;width:100%;height:4px;z-index:1}</style><div class="darkmode-background"></div><div class="darkmode-layer"></div>
+<noscript><p class="warn" >本页面需要浏览器支持（启用）JavaScript</p></noscript><div class="header"><div class="logo_title"><div class="title animated fadeInDown"><a href="https://chenjie04.github.io"><img alt="logo" style="display:inline-block;" src="https://chenjie04.github.io/images/avatar.png"/></a><h1 title="chenjie04&#39;s blog" class="weaklink"><a  href="/">chenjie04&#39;s blog</a></h1>
+
+<div class="navbar weaklink">
+<div class="normal_nav">
+<div class="bitcron_nav_container"><div class="bitcron_nav"><div class="bitcron_nav"><div style="display:flex;justify-content:center;"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul></nav>
+<div style="float:right;margin-top:1em"><form id="gridea-search-form" data-update="1578893743252" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="Search..."></form></div><div style="margin-left:0.5em;margin-top:1.2em"><input id="switch_default" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+<div class="clear clear_nav_inline_end"></div></div></div><div class="clear clear_nav_end"></div></div></div><div class="hamberger" href="javascript:void(0)" onclick="btn_toggle();"><i class="iconfont icon-category"></i></div></div></div></div>
+<div id="hn" class="no-js hidden_nav animated fadeInDown"><div class="bitcron_nav_container"><div class="bitcron_nav"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul><div class="clear clear_nav_inline_end"></div></nav></div><div class="clear clear_nav_end"></div></div>
+<div style="display:flex;justify-content:center;inline-block;text-align:center;margin-top:7%"><div><form id="gridea-search-form" data-update="1690208408768" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q"  placeholder="Search..." /></form></div><div style="margin-left:0.5em"><input id="switch_default_h" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+</div></div>
+<script>function enableDarkmode(){document.body.classList.add("darkmode"),document.getElementById("switch_default").checked=1,document.getElementById("switch_default_h").checked=1}function removeDarkmode(){document.body.classList.remove("darkmode"),document.getElementById("switch_default").checked=0,document.getElementById("switch_default_h").checked=0}function getCookie(a){var b,c=new RegExp("(^| )"+a+"=([^;]*)(;|$)");return(b=document.cookie.match(c))?unescape(b[2]):null}cookie=getCookie("darkmode"),"enable"==cookie&&enableDarkmode(),window.matchMedia("(prefers-color-scheme: dark)").matches&&"disable"!==cookie&&(enableDarkmode(),document.cookie="darkmode=enable; path=/");var mobileBtn=function(){1==document.getElementById("switch_default").checked?(enableDarkmode(),document.cookie="darkmode=enable; path=/"):(removeDarkmode(),document.cookie="darkmode=disable; path=/")};</script>
+
+<div class="main"><div class="main-inner"><div class="content">
+<article class="post">
+<h2 class="post_title sm_margin"><a>ROS2开发笔记——service样例（三）</a></h2>
+<script>function lan(){if(document.getElementById("lan").innerText=="繁"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_tw.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="简"}else{if(document.getElementById("lan").innerText=="簡"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_cn.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="繁"}}};</script>
+<section class="post_details"><i class="iconfont icon-calendar"></i><span style="margin-right:15px"> 2023-05-17</span><i class="iconfont icon-browse"></i><span style="margin-right:15px"> <span id="busuanzi_value_page_pv"></span> Views</span><i class="iconfont icon-category"></i><span class="weaklink" style="margin-right:15px"></span><i class="iconfont icon-caret-down"></i><span style="margin-right:15px">862字</span><i class="iconfont icon-naozhong"></i><span style="margin-right:15px">4 min read</span><a id="lan" href="javascript:void(0);"onclick="lan();"title="调整简繁体" style="margin-right:15px;">繁</a>
+</section>
+
+<div style="display:flex">
+<div class="md_block" id="md_block">
+<div class="round-shape-one"></div>
+<figure data-type="image" tabindex="1"><img src="https://docs.ros.org/en/humble/_images/Service-SingleServiceClient.gif" alt="" loading="lazy"></figure>
+<h1 id="一-创建包">一、创建包</h1>
+<p>服务的通信方式就是客户端发起其服务请求，服务端收到请求后响应。在这里，我们通过一个加法求解的样例演示怎么进行服务开发，客户端发起请求——“我想知道a+b=？”，服务端收到a和b这两个数后把它们相加并返回给客户端。根据问题的定义，那么这个服务的数据结构就应该如下所示，</p>
+<pre><code class="language-bash">int64 a
+int64 b
+---
+int64 sum
+</code></pre>
+<p>上半部定义了请求的两个整型变量，下半部定义响应结果。该数据结构定义在了example_interfaces包里面，就是为了方便我们学习，后面我们也会学习怎么自定义需要的各类数据结构。</p>
+<p>除了上述的数据结构包，我们还需要依赖rclpy这个包，知道了这些信息，我们就可以在新建包的时候指定这些依赖包，</p>
+<pre><code class="language-bash">$ ros2 pkg create --build-type ament_python py_srvcli --dependencies rclpy example_interfaces
+</code></pre>
+<p>更新package.xml和setup.py中的信息，</p>
+<pre><code class="language-bash">&lt;description&gt;Python client server tutorial&lt;/description&gt;
+&lt;maintainer email=&quot;you@email.com&quot;&gt;Your Name&lt;/maintainer&gt;
+&lt;license&gt;Apache License 2.0&lt;/license&gt;
+</code></pre>
+<pre><code class="language-bash">maintainer='Your Name',
+maintainer_email='you@email.com',
+description='Python client server tutorial',
+license='Apache License 2.0',
+</code></pre>
+<h1 id="二-编写服务端节点">二、编写服务端节点</h1>
+<p>在ros2_ws/src/py_srvcli/py_srvcli目录下创建一个service_member_function.py文件，</p>
+<pre><code class="language-python">from example_interfaces.srv import AddTwoInts # 数据结构类型
+
+import rclpy # ROS2 python客户端
+from rclpy.node import Node # 节点父类
+
+
+class MinimalService(Node):
+
+    def __init__(self):
+        super().__init__('minimal_service')
+        self.srv = self.create_service(AddTwoInts, 'add_two_ints', self.add_two_ints_callback) # 创建服务
+
+    def add_two_ints_callback(self, request, response):
+        response.sum = request.a + request.b
+        self.get_logger().info('Incoming request\na: %d b: %d' % (request.a, request.b))
+
+        return response
+
+
+def main():
+    rclpy.init()
+
+    minimal_service = MinimalService()
+
+    rclpy.spin(minimal_service)
+
+    rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+<p>我们在创建包的时候已经指定了依赖，所以现在我们只需要给程序添加执行入口，</p>
+<pre><code class="language-python">entry_points={
+    'console_scripts': [
+        'service = py_srvcli.service_member_function:main',
+    ],
+},
+</code></pre>
+<h1 id="三-编写客户端节点">三、编写客户端节点</h1>
+<p>在ros2_ws/src/py_srvcli/py_srvcli目录下创建一个client_member_function.py文件，</p>
+<pre><code class="language-python">import sys # 导入sys，以便能够通过sys.argv在命令行读取输入
+
+from example_interfaces.srv import AddTwoInts
+import rclpy
+from rclpy.node import Node
+
+
+class MinimalClientAsync(Node):
+
+    def __init__(self):
+        super().__init__('minimal_client_async')
+        self.cli = self.create_client(AddTwoInts, 'add_two_ints') # 创建客户端，注意服务的名字和类型要和上面服务端的一致
+        while not self.cli.wait_for_service(timeout_sec=1.0): # 检查客户端指定的服务是否可用，如果先启动客户端节点，再启动服务端节点，就会出现服务不可用的情况，命令行提示等待
+            self.get_logger().info('service not available, waiting again...')
+        self.req = AddTwoInts.Request()
+
+    def send_request(self, a, b): # 定义怎么发送请求
+        self.req.a = a
+        self.req.b = b
+        self.future = self.cli.call_async(self.req) # 异步请求(非阻塞)
+        rclpy.spin_until_future_complete(self, self.future) # 等待服务端应答
+        return self.future.result()
+
+
+def main():
+    rclpy.init()
+
+    minimal_client = MinimalClientAsync()
+    response = minimal_client.send_request(int(sys.argv[1]), int(sys.argv[2])) # 从命令行读取输入，并发送服务请求
+    minimal_client.get_logger().info(
+        'Result of add_two_ints: for %d + %d = %d' %
+        (int(sys.argv[1]), int(sys.argv[2]), response.sum))
+
+    minimal_client.destroy_node()
+    rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+<p>添加程序执行入口，</p>
+<pre><code class="language-python">entry_points={
+    'console_scripts': [
+        'service = py_srvcli.service_member_function:main',
+        'client = py_srvcli.client_member_function:main',
+    ],
+},
+</code></pre>
+<h1 id="四-编译与运行">四、编译与运行</h1>
+<p>检查依赖，</p>
+<pre><code class="language-bash">$ rosdep install -i --from-path src --rosdistro humble -y
+</code></pre>
+<p>编译</p>
+<pre><code class="language-bash">$ colcon build --packages-select py_srvcli
+</code></pre>
+<p>启动服务端</p>
+<pre><code class="language-bash">$ source install/setup.bash
+$ ros2 run py_srvcli service
+</code></pre>
+<p>在新的终端启动客户端</p>
+<pre><code class="language-bash">$ source install/setup.bash
+$ ros2 run py_srvcli client 2 3
+[INFO] [minimal_client_async]: Result of add_two_ints: for 2 + 3 = 5
+</code></pre>
+<p>回到服务端窗口，我们可以看到刚刚输出了以下提示信息，</p>
+<pre><code class="language-bash">[INFO] [minimal_service]: Incoming request
+a: 2 b: 3
+</code></pre>
+
+<span id="footnote"></span>
+<div id = "warn"></div>
+</div>
+<div class="toc-container"><ul class="markdownIt-TOC">
+<li><a href="#%E4%B8%80-%E5%88%9B%E5%BB%BA%E5%8C%85">一、创建包</a></li>
+<li><a href="#%E4%BA%8C-%E7%BC%96%E5%86%99%E6%9C%8D%E5%8A%A1%E7%AB%AF%E8%8A%82%E7%82%B9">二、编写服务端节点</a></li>
+<li><a href="#%E4%B8%89-%E7%BC%96%E5%86%99%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%8A%82%E7%82%B9">三、编写客户端节点</a></li>
+<li><a href="#%E5%9B%9B-%E7%BC%96%E8%AF%91%E4%B8%8E%E8%BF%90%E8%A1%8C">四、编译与运行</a></li>
+</ul>
+</div>
+</div>
+<div id="fullPage"><canvas id="canvas"></canvas></div>
+</article>
+<div id="eof"><span>EOF</span></div><div class="round-shape-one"></div>
+<section>
+<div class="doc_comments">
+
+	  
+		<div id="gitalk-container"></div>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/qyxtim/Static@3.8/gitalk.min.js"></script><link href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.css"rel="stylesheet"><script>var gitalk=new Gitalk({clientID:"e92872ae2da2976f32ca",clientSecret:"966ed19d803936e67d1eff80ec616cb4f6c2d57d",repo:"chenjie04.github.io",owner:"chenjie04",admin:["chenjie04"],id:(location.pathname).substring(0, 49),distractionFreeMode:false});gitalk.render("gitalk-container");</script>
+	  
+		  
+	  
+
+</div></section>
+</div></div></div><script>
+"use strict";!function(){for(var n=document.getElementsByTagName("pre"),e=n.length,s=0;s<e;s++){n[s].innerHTML='<span class="line-number"></span>'+n[s].innerHTML+'<span class="cl"></span>';for(var a=n[s].innerHTML.split(/\n/).length,r=0;r<a-1;r++){n[s].getElementsByTagName("span")[0].innerHTML+="<span>"+(r+1)+"</span>"}}}();
+let mainNavLinks=document.querySelectorAll(".markdownIt-TOC a");window.addEventListener("scroll",event=>{let fromTop=window.scrollY;mainNavLinks.forEach((link,index)=>{let section=document.getElementById(decodeURI(link.hash).substring(1));let nextSection=null
+if(mainNavLinks[index+1]){nextSection=document.getElementById(decodeURI(mainNavLinks[index+1].hash).substring(1));}
+if(section.offsetTop<=fromTop){if(nextSection){if(nextSection.offsetTop>fromTop){link.classList.add("currentToc");}else{link.classList.remove("currentToc");}}else{link.classList.add("currentToc");}}else{link.classList.remove("currentToc");}});});
+var h=document.documentElement,b=document.body,st="scrollTop",sh="scrollHeight",progress=document.querySelector(".progress"),scroll;document.addEventListener("scroll",function(){scroll=(h[st]||b[st])/((h[sh]||b[sh])-h.clientHeight)*100;progress.style.setProperty("--scroll",scroll+"%")});
+var wxScale=new WxScale({fullPage:document.querySelector("#fullPage"),canvas:document.querySelector("#canvas")});var imgBox=document.querySelectorAll("#md_block img");for(var i=0;i<imgBox.length;i++){imgBox[i].onclick=function(e){wxScale.start(this)}};
+</script>
+<a id="scrollUp" href="#top" style="position: fixed; z-index: 2147483647; display: block;"></a><div class="footer animated fadeInDown"><div class="site_footer"><div class="mysocials"><div class="my_socials"></div></div><div class="copyright"id="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>Copyright © 2018-2020 <a href="https://chenjie04.github.io" style="margin:0;">chenjie04&#39;s blog</a>.</div>
+<span style="display: inline;margin-right:15px;">👁<strong><span id="busuanzi_value_site_uv"></span></strong></span><span id="busuanzi_container_page_pv" style="display: inline;"><span>📚<strong>31</strong> posts</span></div></div>
+<script>
+console.log("\n %c \u26a1Theme: Bitcron-pro Author's Blog:https://blog.blinkstar.cn  Writen By Serence  \n\n", "color: #ffffff; background: rgba(49, 49, 49, 0.85); padding:5px 0;border-radius:5px;", );
+</script>
+<script src="https://cdn.jsdelivr.net/npm/instant.page@3.0.0/instantpage.min.js" type="module" defer></script>
+<script type="text/javascript" async src="https://chenjie04.github.io/media/js/prism.js"></script>
+</body>
+</html>

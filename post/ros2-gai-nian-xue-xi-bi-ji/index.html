@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="shortcut icon" href="https://chenjie04.github.io/favicon.ico" type="image/x-icon" /><meta name="viewport"content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/><meta name="apple-mobile-web-app-capable"content="yes"/><meta name="apple-mobile-web-app-status-bar-style"content="black"/><meta name="format-detection"content="telephone=no"/><meta name="renderer"content="webkit"><meta name="description"content="温故而知新"><meta charset="UTF-8"><title>ROS2概念学习笔记（一） | chenjie04&#39;s blog</title>
+<link href="https://chenjie04.github.io/styles/main.css" type="text/css" rel="stylesheet" /><link href="https://at.alicdn.com/t/font_1621793_zatzzgvf30g.css" type="text/css" rel="stylesheet" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css"><script async src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.min.js"></script><script src="https://chenjie04.github.io/media/js/magnify.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+<script type="text/javascript">function btn_toggle(){document.getElementById("hn").classList.contains("no-js")?document.getElementById("hn").classList.remove("no-js"):document.getElementById("hn").classList.add("no-js")}</script>
+
+<link rel="canonical" href="https://chenjie04.github.io/post/ros2-gai-nian-xue-xi-bi-ji/" />
+</head>
+<body>
+<div class="progress"></div><style>.progress{background:linear-gradient(to right,#87ceeb var(--scroll),transparent 0);background-repeat:no-repeat;position:fixed;width:100%;height:4px;z-index:1}</style><div class="darkmode-background"></div><div class="darkmode-layer"></div>
+<noscript><p class="warn" >本页面需要浏览器支持（启用）JavaScript</p></noscript><div class="header"><div class="logo_title"><div class="title animated fadeInDown"><a href="https://chenjie04.github.io"><img alt="logo" style="display:inline-block;" src="https://chenjie04.github.io/images/avatar.png"/></a><h1 title="chenjie04&#39;s blog" class="weaklink"><a  href="/">chenjie04&#39;s blog</a></h1>
+
+<div class="navbar weaklink">
+<div class="normal_nav">
+<div class="bitcron_nav_container"><div class="bitcron_nav"><div class="bitcron_nav"><div style="display:flex;justify-content:center;"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul></nav>
+<div style="float:right;margin-top:1em"><form id="gridea-search-form" data-update="1578893743252" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="Search..."></form></div><div style="margin-left:0.5em;margin-top:1.2em"><input id="switch_default" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+<div class="clear clear_nav_inline_end"></div></div></div><div class="clear clear_nav_end"></div></div></div><div class="hamberger" href="javascript:void(0)" onclick="btn_toggle();"><i class="iconfont icon-category"></i></div></div></div></div>
+<div id="hn" class="no-js hidden_nav animated fadeInDown"><div class="bitcron_nav_container"><div class="bitcron_nav"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul><div class="clear clear_nav_inline_end"></div></nav></div><div class="clear clear_nav_end"></div></div>
+<div style="display:flex;justify-content:center;inline-block;text-align:center;margin-top:7%"><div><form id="gridea-search-form" data-update="1690208408768" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q"  placeholder="Search..." /></form></div><div style="margin-left:0.5em"><input id="switch_default_h" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+</div></div>
+<script>function enableDarkmode(){document.body.classList.add("darkmode"),document.getElementById("switch_default").checked=1,document.getElementById("switch_default_h").checked=1}function removeDarkmode(){document.body.classList.remove("darkmode"),document.getElementById("switch_default").checked=0,document.getElementById("switch_default_h").checked=0}function getCookie(a){var b,c=new RegExp("(^| )"+a+"=([^;]*)(;|$)");return(b=document.cookie.match(c))?unescape(b[2]):null}cookie=getCookie("darkmode"),"enable"==cookie&&enableDarkmode(),window.matchMedia("(prefers-color-scheme: dark)").matches&&"disable"!==cookie&&(enableDarkmode(),document.cookie="darkmode=enable; path=/");var mobileBtn=function(){1==document.getElementById("switch_default").checked?(enableDarkmode(),document.cookie="darkmode=enable; path=/"):(removeDarkmode(),document.cookie="darkmode=disable; path=/")};</script>
+
+<div class="main"><div class="main-inner"><div class="content">
+<article class="post">
+<h2 class="post_title sm_margin"><a>ROS2概念学习笔记（一）</a></h2>
+<script>function lan(){if(document.getElementById("lan").innerText=="繁"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_tw.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="简"}else{if(document.getElementById("lan").innerText=="簡"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_cn.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="繁"}}};</script>
+<section class="post_details"><i class="iconfont icon-calendar"></i><span style="margin-right:15px"> 2023-05-11</span><i class="iconfont icon-browse"></i><span style="margin-right:15px"> <span id="busuanzi_value_page_pv"></span> Views</span><i class="iconfont icon-category"></i><span class="weaklink" style="margin-right:15px"></span><i class="iconfont icon-caret-down"></i><span style="margin-right:15px">3328字</span><i class="iconfont icon-naozhong"></i><span style="margin-right:15px">16 min read</span><a id="lan" href="javascript:void(0);"onclick="lan();"title="调整简繁体" style="margin-right:15px;">繁</a>
+</section>
+
+<div style="display:flex">
+<div class="md_block" id="md_block">
+<div class="round-shape-one"></div>
+<h1 id="一-节点node">一、节点（Node）</h1>
+<figure data-type="image" tabindex="1"><img src="http://docs.ros.org/en/humble/_images/Nodes-TopicandService.gif" alt="" loading="lazy"></figure>
+<p>节点是ROS的最小执行单元，每个节点应该只负责单一一个目的。节点之间通过主题（topic）、服务（services）、动作（actions）或参数（parameters）等方式进行通信。</p>
+<p>ROS系统就是由许许多多的节点组成。</p>
+<p>一个或多个节点组成一个可执行程序（C++程序，python程序等）。</p>
+<p>一个或多个可行执程序组成一个包（package）。</p>
+<p>例如，我们通过以下命令安装我们的第一个ROS包，也就是小海龟仿真，</p>
+<pre><code class="language-bash">$ sudo apt update
+$ sudo apt install ros-humble-turtlesim
+</code></pre>
+<p>通过以下命令查看turtlesim包有哪些可执行程序，</p>
+<pre><code class="language-bash">$ ros2 pkg executables turtlesim
+turtlesim draw_square
+turtlesim mimic
+turtlesim turtle_teleop_key
+turtlesim turtlesim_node
+</code></pre>
+<p>回顾我们熟悉的ROS命令：</p>
+<pre><code class="language-bash"># ros2 run &lt;package_name&gt; &lt;executable_name&gt;
+$ ros2 run turtlesim turtlesim_node
+</code></pre>
+<p>其中，turtlesim是一个包，而turtlesim_node是一个可执行程序，也就是通过执行turtlesim包的turtlesim_node程序创建了一个/turtlesim。（怎么有点类和实例的味道？）</p>
+<p>假如，我们想查看当前系统中运行这哪些节点，</p>
+<pre><code class="language-bash">$ ros2 node list
+$ /turtlesim
+</code></pre>
+<p>当前只运行了/turtlesim 这一个节点。在启动另外一个控制节点，</p>
+<pre><code class="language-bash">$ ros2 run turtlesim turtle_teleop_key
+# 查看节点
+$ ros2 node list
+$ /turtlesim
+  /teleop_turtle
+</code></pre>
+<p>我们可以通过Remapping修改节点的属性，比如我们想启动一个新的/turtlesim并将名字改为/my_turtle，</p>
+<pre><code class="language-bash">$ ros2 run turtlesim turtlesim_node --ros-args --remap __node:=my_turtle
+</code></pre>
+<pre><code class="language-bash">$ ros2 node list
+$ /my_turtle
+  /turtlesim
+  /teleop_turtle
+</code></pre>
+<p>知道节点的名字，我们就可以通过以下命令查看节点的更多信息</p>
+<pre><code class="language-bash">$ ros2 node info &lt;node_name&gt;
+</code></pre>
+<pre><code class="language-bash">$ ros2 node info /my_turtle
+$ /my_turtle
+  Subscribers:
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+    /turtle1/cmd_vel: geometry_msgs/msg/Twist
+  Publishers:
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+    /rosout: rcl_interfaces/msg/Log
+    /turtle1/color_sensor: turtlesim/msg/Color
+    /turtle1/pose: turtlesim/msg/Pose
+  Service Servers:
+    /clear: std_srvs/srv/Empty
+    /kill: turtlesim/srv/Kill
+    /my_turtle/describe_parameters: rcl_interfaces/srv/DescribeParameters
+    /my_turtle/get_parameter_types: rcl_interfaces/srv/GetParameterTypes
+    /my_turtle/get_parameters: rcl_interfaces/srv/GetParameters
+    /my_turtle/list_parameters: rcl_interfaces/srv/ListParameters
+    /my_turtle/set_parameters: rcl_interfaces/srv/SetParameters
+    /my_turtle/set_parameters_atomically: rcl_interfaces/srv/SetParametersAtomically
+    /reset: std_srvs/srv/Empty
+    /spawn: turtlesim/srv/Spawn
+    /turtle1/set_pen: turtlesim/srv/SetPen
+    /turtle1/teleport_absolute: turtlesim/srv/TeleportAbsolute
+    /turtle1/teleport_relative: turtlesim/srv/TeleportRelative
+  Service Clients:
+
+  Action Servers:
+    /turtle1/rotate_absolute: turtlesim/action/RotateAbsolute
+  Action Clients:
+</code></pre>
+<h1 id="二-主题topic">二、主题（topic）</h1>
+<figure data-type="image" tabindex="2"><img src="https://docs.ros.org/en/humble/_images/Topic-MultiplePublisherandMultipleSubscriber.gif" alt="" loading="lazy"></figure>
+<p>话题是单向消息发送/接收的一种通信方式，一个节点发送一个接受就完事。不过主题这种通信方式是一个一对一、一对多、多对一、多对多的。</p>
+<p>需要引入另外一个信息（Message）的概念，信息定义了主题的数据格式。吐槽一下：主题和信息这两个数据可真是够怪异的，居然信息是数据格式，主题才是数据载体，按照我们的生活习惯应该反过来才对。Nodes send data over topics using messages.</p>
+<p>例如，下面定义了小海龟姿态的信息数据格式，</p>
+<pre><code class="language-python"># turtlesim/msg/Pose.msg
+float32 x
+float32 y
+float32 theta
+
+float32 linear_velocity
+float32 angular_velocity
+</code></pre>
+<p>我们再次启动两个节点观察它们通信的主题，</p>
+<pre><code class="language-bash">$ ros2 run turtlesim turtlesim_node
+</code></pre>
+<pre><code class="language-bash">$ ros2 run turtlesim turtle_teleop_key
+</code></pre>
+<p>然后，我们就可以通过以下命令查看</p>
+<pre><code class="language-bash">$ ros2 topic list
+/parameter_events
+/rosout
+/turtle1/cmd_vel
+/turtle1/color_sensor
+/turtle1/pose
+</code></pre>
+<p>ros2 topic list -t 会额外输出每个主题的信息类型，</p>
+<pre><code class="language-bash">$ ros2 topic list -t 
+/parameter_events [rcl_interfaces/msg/ParameterEvent]
+/rosout [rcl_interfaces/msg/Log]
+/turtle1/cmd_vel [geometry_msgs/msg/Twist]
+/turtle1/color_sensor [turtlesim/msg/Color]
+/turtle1/pose [turtlesim/msg/Pose]
+</code></pre>
+<p>打开rqt_graph程序查看节点和主题（取消隐藏复选框，另外不同版本的输出略有不同），<br>
+<img src="https://docs.ros.org/en/humble/_images/unhide.png" alt="" loading="lazy"></p>
+<p>为了方便debug，我们可以从终端打印主题内部的数据，</p>
+<pre><code class="language-bash"># ros2 topic echo &lt;topic_name&gt;
+$ ros2 topic echo /turtle1/cmd_vel
+linear:
+  x: 2.0
+  y: 0.0
+  z: 0.0
+angular:
+  x: 0.0
+  y: 0.0
+  z: 0.0
+  ---
+</code></pre>
+<p>回到 rqt_graph并去掉debug的复选框，如果没有去掉的话，这时候我们发现多了一个节点/_ros2cli_26646订阅/turtle1/cmd_vel 这个主题。这个节点就是上面的echo命令创建的。<br>
+<img src="https://docs.ros.org/en/humble/_images/debug.png" alt="" loading="lazy"></p>
+<p>同样，我们可以通过以下命令查看主题的相关信息，</p>
+<pre><code class="language-bash">$ ros2 topic info /turtle1/cmd_vel
+Type: geometry_msgs/msg/Twist
+Publisher count: 1
+Subscription count: 2
+</code></pre>
+<p>我们知道主题对应的信息类型之后，可以查看具体数据结构，例如上面主题的信息类型为geometry_msgs/msg/Twist，表示geometry_msgs包有一个msg名为Twist，那么查看的命令为</p>
+<pre><code class="language-bash">$ ros2 interface show geometry_msgs/msg/Twist
+#This expresses velocity in free space broken into its linear and angular parts.
+
+    Vector3  linear
+            float64 x
+            float64 y
+            float64 z
+    Vector3  angular
+            float64 x
+            float64 y
+            float64 z
+</code></pre>
+<p>知道了主题，也知道了信息类型，那么我们在debug的时候就可以通过终端直接发布主题，如，</p>
+<pre><code class="language-bash"># ros2 topic pub &lt;topic_name&gt; &lt;msg_type&gt; '&lt;args&gt;'
+$ ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist &quot;{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}&quot;
+publisher: beginning loop
+publishing #1: geometry_msgs.msg.Twist(linear=geometry_msgs.msg.Vector3(x=2.0, y=0.0, z=0.0), angular=geometry_msgs.msg.Vector3(x=0.0, y=0.0, z=1.8))
+</code></pre>
+<p>--once表示仅发布一条主题然后程序退出。我们也可以看到小海龟转了一个小弯，</p>
+<figure data-type="image" tabindex="3"><img src="https://docs.ros.org/en/humble/_images/pub_once.png" alt="" loading="lazy"></figure>
+<p>我们也可以以一定的频率持续发布主题，比如1Hz，</p>
+<pre><code class="language-bash">$ ros2 topic pub --rate 1 /turtle1/cmd_vel geometry_msgs/msg/Twist &quot;{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}&quot;
+</code></pre>
+<p>那么小海龟就会在转圈圈，<br>
+<img src="https://docs.ros.org/en/humble/_images/pub_stream.png" alt="" loading="lazy"></p>
+<p>我们可以查看某个主题的发布频率，如</p>
+<pre><code class="language-bash">$ ros2 topic hz /turtle1/pose
+average rate: 59.354
+  min: 0.005s max: 0.027s std dev: 0.00284s window: 58
+</code></pre>
+<p>总结一下：主题这种通信方式就是一个节点作为发布者以一定的频率发布主题，另外一个节点作为订阅者订阅了该主题之后就可以接受这条主题，主题的内容由信息类型定义。一个节点可以作为发布者发布不同的主题，同时也可以作为订阅者订阅不同的主题。例如小海龟节点作为订阅者订阅了两条主题，同时作为发布者发布了4条主题，如下所示。</p>
+<pre><code class="language-bash">$ /my_turtle
+  Subscribers:
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+    /turtle1/cmd_vel: geometry_msgs/msg/Twist
+  Publishers:
+    /parameter_events: rcl_interfaces/msg/ParameterEvent
+    /rosout: rcl_interfaces/msg/Log
+    /turtle1/color_sensor: turtlesim/msg/Color
+    /turtle1/pose: turtlesim/msg/Pose
+</code></pre>
+<h1 id="三-服务services">三、服务（services）</h1>
+<p>上面那种主题的通信方式是发布者以固定的频率持续输出数据，而订阅者只能被动接受的单向通信。显然有些功能并不需要怎么高频率的通信。服务是以请求/响应双向通信的方式，客服端有通信需求了就想服务器发起通信请求，服务器才响应并把数据发给客户端。如下图所示，服务这种通信方式，需要有一个节点作为服务端，另外一个作为客户端，服务定义了请求和响应的数据格式。服务可以是一对一也可以是一对多。</p>
+<p><img src="https://docs.ros.org/en/humble/_images/Service-SingleServiceClient.gif" alt="" loading="lazy"><br>
+<img src="https://docs.ros.org/en/humble/_images/Service-MultipleServiceClient.gif" alt="" loading="lazy"></p>
+<p>同样，启动两个节点看看它们启用了哪些服务通信，</p>
+<pre><code class="language-bash">$ ros2 run turtlesim turtlesim_node
+</code></pre>
+<pre><code class="language-bash">$ ros2 run turtlesim turtle_teleop_key
+</code></pre>
+<p>查看激活的服务，</p>
+<pre><code class="language-bash">$ ros2 service list -t
+/clear [std_srvs/srv/Empty]
+/kill [turtlesim/srv/Kill]
+/reset [std_srvs/srv/Empty]
+/spawn [turtlesim/srv/Spawn]
+...
+/turtle1/set_pen [turtlesim/srv/SetPen]
+/turtle1/teleport_absolute [turtlesim/srv/TeleportAbsolute]
+/turtle1/teleport_relative [turtlesim/srv/TeleportRelative]
+...
+</code></pre>
+<p>不同的服务属于不同的类型，类型正是定义了请求和响应的数据格式。<br>
+单独查看某个服务的类型，</p>
+<pre><code class="language-bash">$ ros2 service type /clear
+std_srvs/srv/Empty
+</code></pre>
+<p>查看某个类型下有哪些服务，</p>
+<pre><code class="language-bash">$ ros2 service find std_srvs/srv/Empty
+/clear
+/reset
+</code></pre>
+<p>查看某个类型定义的数据格式，</p>
+<pre><code class="language-bash">$ ros2 interface show std_srvs/srv/Empty
+---
+</code></pre>
+<p>返回---说明该服务的请求和响应不需要发送数据。<br>
+/Spawn是生成小海龟的服务，发起请求时需要给定小海龟的坐标和朝向，也可以指定小海龟的名字，服务响应之后返回小海龟的名字。</p>
+<pre><code class="language-bash">$ ros2 interface show turtlesim/srv/Spawn
+float32 x
+float32 y
+float32 theta
+string name # Optional.  A unique name will be created and returned if this is empty
+---
+string name
+</code></pre>
+<p>从终端直接发起服务请求，例如请求清空小海龟的运动的轨迹，</p>
+<pre><code class="language-bash"># ros2 service call &lt;service_name&gt; &lt;service_type&gt; &lt;arguments&gt;
+$ ros2 service call /clear std_srvs/srv/Empty
+</code></pre>
+<figure data-type="image" tabindex="4"><img src="https://docs.ros.org/en/humble/_images/clear.png" alt="" loading="lazy"></figure>
+<p>请求再生成一个小海龟，</p>
+<pre><code class="language-bash">$ ros2 service call /spawn turtlesim/srv/Spawn &quot;{x: 2, y: 2, theta: 0.2, name: ''}&quot;
+requester: making request: turtlesim.srv.Spawn_Request(x=2.0, y=2.0, theta=0.2, name='')
+
+response:
+turtlesim.srv.Spawn_Response(name='turtle2')
+</code></pre>
+<figure data-type="image" tabindex="5"><img src="https://docs.ros.org/en/humble/_images/spawn1.png" alt="" loading="lazy"></figure>
+<h1 id="四-动作action">四、动作（action）</h1>
+<p>动作是构建在主题和服务之上的一种通信方式，适用于那些需要长时间的任务。想象一个例子，你的老板让你给他写一个本子（动作客户端发起目的服务请求），你回好的！（动作服务端响应目的服务），接着你的老板说本子给我吧（动作客户端发起结果服务请求），但是写本子是需要时间的啊，没办法马上给他，只能给他持续的反馈（反馈主题，动作服务端是发布者，动作客户端是订阅者）：撰写进度10%……20%……80%……100%%，然后把本子甩给老板（动作服务端响应结果服务）。动作通信大概就是这么个工作方式，结合下图再理解一下，<br>
+<img src="https://docs.ros.org/en/humble/_images/Action-SingleActionClient.gif" alt="" loading="lazy"></p>
+<p>启动节点，</p>
+<pre><code class="language-bash">$ ros2 run turtlesim turtlesim_node
+</code></pre>
+<pre><code class="language-bash">$ ros2 run turtlesim turtle_teleop_key
+</code></pre>
+<p>在启动控制节点turtle_teleop_key之后，终端出现以下提示信息，其中第二行“用G|B|V|C|D|E|R|T键旋转到绝对方向，按F键取消”这一功能就是通过动作来通信的。</p>
+<pre><code class="language-bash">Use arrow keys to move the turtle.
+Use G|B|V|C|D|E|R|T keys to rotate to absolute orientations. 'F' to cancel a rotation.
+</code></pre>
+<p>查看动作</p>
+<pre><code class="language-bash">$ ros2 action list -t
+/turtle1/rotate_absolute [turtlesim/action/RotateAbsolute]
+</code></pre>
+<p>动作名称为/turtle1/rotate_absolute，类型turtlesim/action/RotateAbsolute。</p>
+<p>查看动作信息</p>
+<pre><code class="language-bash">$ ros2 action info /turtle1/rotate_absolute
+Action: /turtle1/rotate_absolute
+Action clients: 1
+    /teleop_turtle
+Action servers: 1
+    /turtlesim
+</code></pre>
+<p>查看动作通信的数据结构</p>
+<pre><code class="language-bash">$ ros2 interface show turtlesim/action/RotateAbsolute
+# The desired heading in radians
+float32 theta
+---
+# The angular displacement in radians to the starting position
+float32 delta
+---
+# The remaining rotation in radians
+float32 remaining
+</code></pre>
+<p>第一部分是目的服务的数据结构，第二部分是结果服务的数据结构，第三部分是反馈主题的数据结构。</p>
+<p>从终端发送目的命令</p>
+<pre><code class="language-bash"># ros2 action send_goal &lt;action_name&gt; &lt;action_type&gt; &lt;values&gt;
+$ ros2 action send_goal /turtle1/rotate_absolute turtlesim/action/RotateAbsolute &quot;{theta: -1.57}&quot; --feedback
+
+Sending goal:
+   theta: -1.57
+
+Goal accepted with ID: e6092c831f994afda92f0086f220da27
+
+Feedback:
+  remaining: -3.1268222332000732
+
+Feedback:
+  remaining: -3.1108222007751465
+
+…
+
+Result:
+  delta: 3.1200008392333984
+
+Goal finished with status: SUCCEEDED
+</code></pre>
+<h1 id="五-参数parameter">五、参数（parameter）</h1>
+<p>参数就是节点的配置信息，在生成节点的时候需要进行读取。</p>
+<p>启动节点，</p>
+<pre><code class="language-bash">$ ros2 run turtlesim turtlesim_node
+</code></pre>
+<pre><code class="language-bash">$ ros2 run turtlesim turtle_teleop_key
+</code></pre>
+<p>查看各个节点的参数，</p>
+<pre><code class="language-bash">$ ros2 param list
+/teleop_turtle:
+  qos_overrides./parameter_events.publisher.depth
+  qos_overrides./parameter_events.publisher.durability
+  qos_overrides./parameter_events.publisher.history
+  qos_overrides./parameter_events.publisher.reliability
+  scale_angular
+  scale_linear
+  use_sim_time
+/turtlesim:
+  background_b
+  background_g
+  background_r
+  qos_overrides./parameter_events.publisher.depth
+  qos_overrides./parameter_events.publisher.durability
+  qos_overrides./parameter_events.publisher.history
+  qos_overrides./parameter_events.publisher.reliability
+  use_sim_time
+</code></pre>
+<p>获取特定节点的特定参数，</p>
+<pre><code class="language-bash"># ros2 param get &lt;node_name&gt; &lt;parameter_name&gt;
+$ ros2 param get /turtlesim background_g
+Integer value is: 86
+</code></pre>
+<p>设置定节点的特定参数，</p>
+<pre><code class="language-bash"># ros2 param set &lt;node_name&gt; &lt;parameter_name&gt; &lt;value&gt;
+$ ros2 param set /turtlesim background_r 150
+Set parameter successful
+</code></pre>
+<figure data-type="image" tabindex="6"><img src="https://docs.ros.org/en/humble/_images/set.png" alt="" loading="lazy"></figure>
+<p>保存某个节点的参数到文件</p>
+<pre><code class="language-bash"># ros2 param dump &lt;node_name&gt;
+$ ros2 param dump /turtlesim &gt; turtlesim.yaml
+/turtlesim:
+ros__parameters:
+  background_b: 255
+  background_g: 86
+  background_r: 150
+  qos_overrides:
+    /parameter_events:
+      publisher:
+        depth: 1000
+        durability: volatile
+        history: keep_last
+        reliability: reliable
+  use_sim_time: false
+</code></pre>
+<p>从配置文件中加载参数到节点，</p>
+<pre><code class="language-bash"># ros2 param load &lt;node_name&gt; &lt;parameter_file&gt;
+$ ros2 param load /turtlesim turtlesim.yaml
+Set parameter background_b successful
+Set parameter background_g successful
+Set parameter background_r successful
+Set parameter qos_overrides./parameter_events.publisher.depth failed: parameter 'qos_overrides./parameter_events.publisher.depth' cannot be set because it is read-only
+Set parameter qos_overrides./parameter_events.publisher.durability failed: parameter 'qos_overrides./parameter_events.publisher.durability' cannot be set because it is read-only
+Set parameter qos_overrides./parameter_events.publisher.history failed: parameter 'qos_overrides./parameter_events.publisher.history' cannot be set because it is read-only
+Set parameter qos_overrides./parameter_events.publisher.reliability failed: parameter 'qos_overrides./parameter_events.publisher.reliability' cannot be set because it is read-only
+Set parameter use_sim_time successful
+</code></pre>
+<p>在节点启动时加载配置文件中的参数，</p>
+<pre><code class="language-bash"># ros2 run &lt;package_name&gt; &lt;executable_name&gt; --ros-args --params-file &lt;file_name&gt;
+$ ros2 run turtlesim turtlesim_node --ros-args --params-file turtlesim.yaml
+</code></pre>
+<h1 id="六-查阅日志">六、查阅日志</h1>
+<p>rqt_console是一个日志查看工具,</p>
+<pre><code class="language-bash">$ ros2 run rqt_console rqt_console
+</code></pre>
+<figure data-type="image" tabindex="7"><img src="https://docs.ros.org/en/humble/_images/console.png" alt="" loading="lazy"></figure>
+<h1 id="七-记录并回放实验数据">七、记录并回放实验数据</h1>
+<p>ROS是通过bag这个包记录并回放实验数据的，不过好像只能记录主题数据。</p>
+<p>安装bag包</p>
+<pre><code class="language-bash">$ sudo apt-get install ros-humble-ros2bag \
+                     ros-humble-rosbag2-storage-default-plugins
+</code></pre>
+<p>启动节点</p>
+<pre><code class="language-bash">$ ros2 run turtlesim turtlesim_node
+</code></pre>
+<pre><code class="language-bash">$ ros2 run turtlesim turtle_teleop_key
+</code></pre>
+<p>控制节点中使用方向键移动小海龟（Use arrow keys to move the turtle）就是通过主题/turtle1/cmd_vel实现的，/turtle1/cmd_vel的信息类型为 geometry_msgs/msg/Twist，数据格式如下，</p>
+<pre><code class="language-bash">linear:
+  x: 2.0
+  y: 0.0
+  z: 0.0
+angular:
+  x: 0.0
+  y: 0.0
+  z: 0.0
+  ---
+</code></pre>
+<p>解释：Consider that you are in some space, then there are 3 axes - x, y and z which are mutually perpendicular to each other and their point of intersection is called the origin (x = 0, y = 0, z = 0). This can be a frame of reference i.e. you can define various points and directions w.r.t. them.</p>
+<p>The x, y, and z in Twist.linear are the linear velocities in x, y and z directions w.r.t. that frame of reference.</p>
+<p>Similarly, the x, y, and z in Twist.angular are the angular velocities about the x, y and z directions respectively w.r.t. the same frame of reference.</p>
+<p>Since you have a ground robot, most probably your angular velocity will be in z i.e. robot's turning speed. And your linear velocity will be mostly in x i.e. robot's moving straight speed. This is the case for the Turtlebot 2 at least.</p>
+<p>/turtle1/cmd_vel 主题可以控制小海龟的速度和方向。同时，我们一般还会记录小海龟是姿态/turtle1/pose，</p>
+<p>记录示例，</p>
+<pre><code class="language-bash">$ mkdir bag_files
+$ cd bag_files
+$ ros2 bag record -o subset /turtle1/cmd_vel /turtle1/pose
+</code></pre>
+<p>-o指定记录名字（bag_file_name），Ctrl+C停止记录</p>
+<p>查看记录信息</p>
+<pre><code class="language-bash">$ ros2 bag info subset
+Files:             subset.db3
+Bag size:          228.5 KiB
+Storage id:        sqlite3
+Duration:          48.47s
+Start:             Oct 11 2019 06:09:09.12 (1570799349.12)
+End                Oct 11 2019 06:09:57.60 (1570799397.60)
+Messages:          3013
+Topic information: Topic: /turtle1/cmd_vel | Type: geometry_msgs/msg/Twist | Count: 9 | Serialization Format: cdr
+                 Topic: /turtle1/pose | Type: turtlesim/msg/Pose | Count: 3004 | Serialization Format: cdr
+</code></pre>
+<p>记录回放</p>
+<pre><code class="language-bash">$ ros2 bag play subset
+[INFO] [rosbag2_storage]: Opened database 'subset'.
+</code></pre>
+<figure data-type="image" tabindex="8"><img src="https://docs.ros.org/en/humble/_images/playback.png" alt="" loading="lazy"></figure>
+
+<span id="footnote"></span>
+<div id = "warn"></div>
+</div>
+<div class="toc-container"><ul class="markdownIt-TOC">
+<li><a href="#%E4%B8%80-%E8%8A%82%E7%82%B9node">一、节点（Node）</a></li>
+<li><a href="#%E4%BA%8C-%E4%B8%BB%E9%A2%98topic">二、主题（topic）</a></li>
+<li><a href="#%E4%B8%89-%E6%9C%8D%E5%8A%A1services">三、服务（services）</a></li>
+<li><a href="#%E5%9B%9B-%E5%8A%A8%E4%BD%9Caction">四、动作（action）</a></li>
+<li><a href="#%E4%BA%94-%E5%8F%82%E6%95%B0parameter">五、参数（parameter）</a></li>
+<li><a href="#%E5%85%AD-%E6%9F%A5%E9%98%85%E6%97%A5%E5%BF%97">六、查阅日志</a></li>
+<li><a href="#%E4%B8%83-%E8%AE%B0%E5%BD%95%E5%B9%B6%E5%9B%9E%E6%94%BE%E5%AE%9E%E9%AA%8C%E6%95%B0%E6%8D%AE">七、记录并回放实验数据</a></li>
+</ul>
+</div>
+</div>
+<div id="fullPage"><canvas id="canvas"></canvas></div>
+</article>
+<div id="eof"><span>EOF</span></div><div class="round-shape-one"></div>
+<section>
+<div class="doc_comments">
+
+	  
+		<div id="gitalk-container"></div>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/qyxtim/Static@3.8/gitalk.min.js"></script><link href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.css"rel="stylesheet"><script>var gitalk=new Gitalk({clientID:"e92872ae2da2976f32ca",clientSecret:"966ed19d803936e67d1eff80ec616cb4f6c2d57d",repo:"chenjie04.github.io",owner:"chenjie04",admin:["chenjie04"],id:(location.pathname).substring(0, 49),distractionFreeMode:false});gitalk.render("gitalk-container");</script>
+	  
+		  
+	  
+
+</div></section>
+</div></div></div><script>
+"use strict";!function(){for(var n=document.getElementsByTagName("pre"),e=n.length,s=0;s<e;s++){n[s].innerHTML='<span class="line-number"></span>'+n[s].innerHTML+'<span class="cl"></span>';for(var a=n[s].innerHTML.split(/\n/).length,r=0;r<a-1;r++){n[s].getElementsByTagName("span")[0].innerHTML+="<span>"+(r+1)+"</span>"}}}();
+let mainNavLinks=document.querySelectorAll(".markdownIt-TOC a");window.addEventListener("scroll",event=>{let fromTop=window.scrollY;mainNavLinks.forEach((link,index)=>{let section=document.getElementById(decodeURI(link.hash).substring(1));let nextSection=null
+if(mainNavLinks[index+1]){nextSection=document.getElementById(decodeURI(mainNavLinks[index+1].hash).substring(1));}
+if(section.offsetTop<=fromTop){if(nextSection){if(nextSection.offsetTop>fromTop){link.classList.add("currentToc");}else{link.classList.remove("currentToc");}}else{link.classList.add("currentToc");}}else{link.classList.remove("currentToc");}});});
+var h=document.documentElement,b=document.body,st="scrollTop",sh="scrollHeight",progress=document.querySelector(".progress"),scroll;document.addEventListener("scroll",function(){scroll=(h[st]||b[st])/((h[sh]||b[sh])-h.clientHeight)*100;progress.style.setProperty("--scroll",scroll+"%")});
+var wxScale=new WxScale({fullPage:document.querySelector("#fullPage"),canvas:document.querySelector("#canvas")});var imgBox=document.querySelectorAll("#md_block img");for(var i=0;i<imgBox.length;i++){imgBox[i].onclick=function(e){wxScale.start(this)}};
+</script>
+<a id="scrollUp" href="#top" style="position: fixed; z-index: 2147483647; display: block;"></a><div class="footer animated fadeInDown"><div class="site_footer"><div class="mysocials"><div class="my_socials"></div></div><div class="copyright"id="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>Copyright © 2018-2020 <a href="https://chenjie04.github.io" style="margin:0;">chenjie04&#39;s blog</a>.</div>
+<span style="display: inline;margin-right:15px;">👁<strong><span id="busuanzi_value_site_uv"></span></strong></span><span id="busuanzi_container_page_pv" style="display: inline;"><span>📚<strong>31</strong> posts</span></div></div>
+<script>
+console.log("\n %c \u26a1Theme: Bitcron-pro Author's Blog:https://blog.blinkstar.cn  Writen By Serence  \n\n", "color: #ffffff; background: rgba(49, 49, 49, 0.85); padding:5px 0;border-radius:5px;", );
+</script>
+<script src="https://cdn.jsdelivr.net/npm/instant.page@3.0.0/instantpage.min.js" type="module" defer></script>
+<script type="text/javascript" async src="https://chenjie04.github.io/media/js/prism.js"></script>
+</body>
+</html>

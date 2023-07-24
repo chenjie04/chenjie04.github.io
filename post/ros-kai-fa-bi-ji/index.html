@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="shortcut icon" href="https://chenjie04.github.io/favicon.ico" type="image/x-icon" /><meta name="viewport"content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/><meta name="apple-mobile-web-app-capable"content="yes"/><meta name="apple-mobile-web-app-status-bar-style"content="black"/><meta name="format-detection"content="telephone=no"/><meta name="renderer"content="webkit"><meta name="description"content="温故而知新"><meta charset="UTF-8"><title>ROS2开发笔记——Topic样例（二） | chenjie04&#39;s blog</title>
+<link href="https://chenjie04.github.io/styles/main.css" type="text/css" rel="stylesheet" /><link href="https://at.alicdn.com/t/font_1621793_zatzzgvf30g.css" type="text/css" rel="stylesheet" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css"><script async src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.min.js"></script><script src="https://chenjie04.github.io/media/js/magnify.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+<script type="text/javascript">function btn_toggle(){document.getElementById("hn").classList.contains("no-js")?document.getElementById("hn").classList.remove("no-js"):document.getElementById("hn").classList.add("no-js")}</script>
+
+<link rel="canonical" href="https://chenjie04.github.io/post/ros-kai-fa-bi-ji/" />
+</head>
+<body>
+<div class="progress"></div><style>.progress{background:linear-gradient(to right,#87ceeb var(--scroll),transparent 0);background-repeat:no-repeat;position:fixed;width:100%;height:4px;z-index:1}</style><div class="darkmode-background"></div><div class="darkmode-layer"></div>
+<noscript><p class="warn" >本页面需要浏览器支持（启用）JavaScript</p></noscript><div class="header"><div class="logo_title"><div class="title animated fadeInDown"><a href="https://chenjie04.github.io"><img alt="logo" style="display:inline-block;" src="https://chenjie04.github.io/images/avatar.png"/></a><h1 title="chenjie04&#39;s blog" class="weaklink"><a  href="/">chenjie04&#39;s blog</a></h1>
+
+<div class="navbar weaklink">
+<div class="normal_nav">
+<div class="bitcron_nav_container"><div class="bitcron_nav"><div class="bitcron_nav"><div style="display:flex;justify-content:center;"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul></nav>
+<div style="float:right;margin-top:1em"><form id="gridea-search-form" data-update="1578893743252" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="Search..."></form></div><div style="margin-left:0.5em;margin-top:1.2em"><input id="switch_default" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+<div class="clear clear_nav_inline_end"></div></div></div><div class="clear clear_nav_end"></div></div></div><div class="hamberger" href="javascript:void(0)" onclick="btn_toggle();"><i class="iconfont icon-category"></i></div></div></div></div>
+<div id="hn" class="no-js hidden_nav animated fadeInDown"><div class="bitcron_nav_container"><div class="bitcron_nav"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul><div class="clear clear_nav_inline_end"></div></nav></div><div class="clear clear_nav_end"></div></div>
+<div style="display:flex;justify-content:center;inline-block;text-align:center;margin-top:7%"><div><form id="gridea-search-form" data-update="1690208408768" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q"  placeholder="Search..." /></form></div><div style="margin-left:0.5em"><input id="switch_default_h" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+</div></div>
+<script>function enableDarkmode(){document.body.classList.add("darkmode"),document.getElementById("switch_default").checked=1,document.getElementById("switch_default_h").checked=1}function removeDarkmode(){document.body.classList.remove("darkmode"),document.getElementById("switch_default").checked=0,document.getElementById("switch_default_h").checked=0}function getCookie(a){var b,c=new RegExp("(^| )"+a+"=([^;]*)(;|$)");return(b=document.cookie.match(c))?unescape(b[2]):null}cookie=getCookie("darkmode"),"enable"==cookie&&enableDarkmode(),window.matchMedia("(prefers-color-scheme: dark)").matches&&"disable"!==cookie&&(enableDarkmode(),document.cookie="darkmode=enable; path=/");var mobileBtn=function(){1==document.getElementById("switch_default").checked?(enableDarkmode(),document.cookie="darkmode=enable; path=/"):(removeDarkmode(),document.cookie="darkmode=disable; path=/")};</script>
+
+<div class="main"><div class="main-inner"><div class="content">
+<article class="post">
+<h2 class="post_title sm_margin"><a>ROS2开发笔记——Topic样例（二）</a></h2>
+<script>function lan(){if(document.getElementById("lan").innerText=="繁"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_tw.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="简"}else{if(document.getElementById("lan").innerText=="簡"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_cn.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="繁"}}};</script>
+<section class="post_details"><i class="iconfont icon-calendar"></i><span style="margin-right:15px"> 2023-05-16</span><i class="iconfont icon-browse"></i><span style="margin-right:15px"> <span id="busuanzi_value_page_pv"></span> Views</span><i class="iconfont icon-category"></i><span class="weaklink" style="margin-right:15px"></span><i class="iconfont icon-caret-down"></i><span style="margin-right:15px">2299字</span><i class="iconfont icon-naozhong"></i><span style="margin-right:15px">11 min read</span><a id="lan" href="javascript:void(0);"onclick="lan();"title="调整简繁体" style="margin-right:15px;">繁</a>
+</section>
+
+<div style="display:flex">
+<div class="md_block" id="md_block">
+<div class="round-shape-one"></div>
+<h1 id="一-新建工作空间">一、新建工作空间</h1>
+<p>ROS采用工作空间的概念，在工作空间目录下一般设src目录存放源代码。ROS采用包的形式管理项目，所有工作空间src目录下一般有多个包。ROS可以采用python或C++进行开发，也可以同时采用这两种语言混合开发，因此一个典型ROS工作空间如下所示，</p>
+<pre><code class="language-bash">workspace_folder/
+    src/
+      cpp_package_1/
+          CMakeLists.txt
+          include/cpp_package_1/
+          package.xml
+          src/
+
+      py_package_1/
+          package.xml
+          resource/py_package_1
+          setup.cfg
+          setup.py
+          py_package_1/
+      ...
+      cpp_package_n/
+          CMakeLists.txt
+          include/cpp_package_n/
+          package.xml
+          src/
+</code></pre>
+<p>下面，我们新建自己的工作空间，</p>
+<pre><code class="language-bash">$ mkdir -p ~/ros2_ws/src
+$ cd  ~/ros2_ws/src
+</code></pre>
+<h1 id="二-新建包">二、新建包</h1>
+<p>ROS 提供了工具帮助我们按照模板新建包，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>&lt;</mo><mi>b</mi><mi>u</mi><mi>i</mi><mi>l</mi><mi>d</mi><mo>−</mo><mi>t</mi><mi>y</mi><mi>p</mi><mi>e</mi><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">&lt;build-type&gt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">b</span><span class="mord mathdefault">u</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.80952em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord mathdefault">p</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span></span></span> 指定了编译类型，也就是指定了我们使用什么语言进行开发，使用C++则<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>&lt;</mo><mi>b</mi><mi>u</mi><mi>i</mi><mi>l</mi><mi>d</mi><mo>−</mo><mi>t</mi><mi>y</mi><mi>p</mi><mi>e</mi><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">&lt;build-type&gt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">b</span><span class="mord mathdefault">u</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.80952em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord mathdefault">p</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span></span></span>为 ament_cmake， 而使用python则是ament_python。<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>&lt;</mo><mi>p</mi><mi>a</mi><mi>c</mi><mi>k</mi><mi>a</mi><mi>g</mi><msub><mi>e</mi><mi>n</mi></msub><mi>a</mi><mi>m</mi><mi>e</mi><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">&lt;package_name&gt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">p</span><span class="mord mathdefault">a</span><span class="mord mathdefault">c</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="mord"><span class="mord mathdefault">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">a</span><span class="mord mathdefault">m</span><span class="mord mathdefault">e</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span></span></span>是我们的包名字。</p>
+<pre><code class="language-bash">ros2 pkg create --build-type &lt;build-type&gt; &lt;package_name&gt;
+</code></pre>
+<p>下面，我们新建一个py_pubsub包，学习使用python进行ROS主题通信的开发，</p>
+<pre><code class="language-bash">$ ros2 pkg create --build-type ament_python py_pubsub
+</code></pre>
+<p>我们看一下新建的py_pubsub的目录结构，</p>
+<pre><code class="language-bash">py_pubsub/
+      py_pubsub/
+      resource/py_pubsub
+      test/
+      package.xml
+      setup.cfg
+      setup.py
+</code></pre>
+<h2 id="21-packagexml">2.1、package.xml</h2>
+<p>首先，查看第一个package.xml文件，首先它包含了一些包的名字、版本号、描述信息、许可以及维护者的信息。更重要的是package.xml指定了这个包的依赖，方便编译器在编译的时候能够找到对应的依赖。依赖以_depend结尾的标签指定，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>&lt;</mo><mi>t</mi><mi>e</mi><mi>s</mi><msub><mi>t</mi><mi>d</mi></msub><mi>e</mi><mi>p</mi><mi>e</mi><mi>n</mi><mi>d</mi><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">&lt;test_depend&gt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">t</span><span class="mord mathdefault">e</span><span class="mord mathdefault">s</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">e</span><span class="mord mathdefault">p</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span></span></span>顾名思义是测试时用到的依赖，还有<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>&lt;</mo><mi>b</mi><mi>u</mi><mi>i</mi><mi>l</mi><msub><mi>d</mi><mi>d</mi></msub><mi>e</mi><mi>p</mi><mi>e</mi><mi>n</mi><mi>d</mi><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">&lt;build_depend&gt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">b</span><span class="mord mathdefault">u</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">e</span><span class="mord mathdefault">p</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span></span></span>编译依赖，<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>&lt;</mo><mi>e</mi><mi>x</mi><mi>e</mi><msub><mi>c</mi><mi>d</mi></msub><mi>e</mi><mi>p</mi><mi>e</mi><mi>n</mi><mi>d</mi><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">&lt;exec_depend&gt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">e</span><span class="mord mathdefault">x</span><span class="mord mathdefault">e</span><span class="mord"><span class="mord mathdefault">c</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">e</span><span class="mord mathdefault">p</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span></span></span>执行依赖，以及<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>&lt;</mo><mi>b</mi><mi>u</mi><mi>i</mi><mi>l</mi><msub><mi>d</mi><mi>e</mi></msub><mi>x</mi><mi>p</mi><mi>o</mi><mi>r</mi><msub><mi>t</mi><mi>d</mi></msub><mi>e</mi><mi>p</mi><mi>e</mi><mi>n</mi><mi>d</mi><mo>&gt;</mo></mrow><annotation encoding="application/x-tex">&lt;build_export_depend&gt;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">b</span><span class="mord mathdefault">u</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord"><span class="mord mathdefault">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">e</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">x</span><span class="mord mathdefault">p</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord"><span class="mord mathdefault">t</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathdefault">e</span><span class="mord mathdefault">p</span><span class="mord mathdefault">e</span><span class="mord mathdefault">n</span><span class="mord mathdefault">d</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span></span></span>导出依赖等。</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;?xml-model
+   href=&quot;http://download.ros.org/schema/package_format3.xsd&quot;
+   schematypens=&quot;http://www.w3.org/2001/XMLSchema&quot;?&gt;
+&lt;package format=&quot;3&quot;&gt;
+ &lt;name&gt;py_pubsub&lt;/name&gt;
+ &lt;version&gt;0.0.0&lt;/version&gt;
+ &lt;description&gt;TODO: Package description&lt;/description&gt;
+ &lt;maintainer email=&quot;user@todo.todo&quot;&gt;user&lt;/maintainer&gt;
+ &lt;license&gt;TODO: License declaration&lt;/license&gt;
+
+ &lt;test_depend&gt;ament_copyright&lt;/test_depend&gt;
+ &lt;test_depend&gt;ament_flake8&lt;/test_depend&gt;
+ &lt;test_depend&gt;ament_pep257&lt;/test_depend&gt;
+ &lt;test_depend&gt;python3-pytest&lt;/test_depend&gt;
+
+ &lt;export&gt;
+   &lt;build_type&gt;ament_python&lt;/build_type&gt;
+ &lt;/export&gt;
+&lt;/package&gt;
+</code></pre>
+<p>加入我们项目中需要用到一个包，但是我们系统上没有，那么编译的时候必然会报错，那么我们怎么安装这些外部依赖包呢？这需要用到rosdep这个工具。使用rosdep之前，需要先对它进行初始化并更新，</p>
+<pre><code class="language-bash">$ sudo rosdep init
+$ rosdep update
+</code></pre>
+<p>但是sudo rosdep init需要从GitHub下载数据，由于国内的原因，运行这个命令必然会失败。这成为了每个学习ros的人必然要面对的一个问题。国情原因我理解，只是不知道为什么国内ros社区没有去维护一个国内版本，可能是许可的原因吧，以致大家需要使用一些邪魔外道的手段才可以解决这个问题。</p>
+<p>不过，现在博主鱼香ROS，自己维护了国内版<a href="https://zhuanlan.zhihu.com/p/398754989">rosdepc</a>，算是解决了这个问题，rosdepc的安装与使用</p>
+<pre><code class="language-bash">$ pip install rosdepc
+$ rosdepc init
+$ rosdepc update
+</code></pre>
+<p>检查并安装依赖，</p>
+<pre><code class="language-bash">rosdepc install --from-paths src -y --ignore-src
+</code></pre>
+<p>--from-paths src 表示检查src目录下的package.xml中的依赖，-y就是默认yes，--ignore-src表示加入package.xml中指定的某个依赖是当前工作空间中的就忽略，因为编译之后必然会安装。</p>
+<h2 id="22-setuppy">2.2、setup.py</h2>
+<p>setup.py是python包的安装指令文件，指定了怎么安装这个包，同样也包含该包的一些相关信息，我们需要注意的是执行程序入口entry_points，示例中定义了一个执行程序入口为my_node，该入口指向my_py_pkg.my_node:main函数，后面写代码的时候会有具体示例。</p>
+<pre><code class="language-python">from setuptools import setup
+
+package_name = 'py_pubsub'
+
+setup(
+ name=package_name,
+ version='0.0.0',
+ packages=[package_name],
+ data_files=[
+     ('share/ament_index/resource_index/packages',
+             ['resource/' + package_name]),
+     ('share/' + package_name, ['package.xml']),
+   ],
+ install_requires=['setuptools'],
+ zip_safe=True,
+ maintainer='TODO',
+ maintainer_email='TODO',
+ description='TODO: Package description',
+ license='TODO: License declaration',
+ tests_require=['pytest'],
+ entry_points={
+     'console_scripts': [
+            # 'my_node = my_py_pkg.my_node:main'
+     ],
+   },
+)
+</code></pre>
+<h2 id="23-setupcfg">2.3、setup.cfg</h2>
+<p>setup.cfg是为了执行ros2 run命令时能够找到对应的可执行程序，</p>
+<pre><code class="language-cfg">[develop]
+script_dir=$base/lib/py_pubsub
+[install]
+install_scripts=$base/lib/py_pubsub
+
+</code></pre>
+<h2 id="24-其他">2.4、其他</h2>
+<p>剩下的是三个目录，一个是跟包同名的目录，用于存放我们的源代码文件，该目录下还有__init__.py文件。另外一个是resource目录，底下也是跟包同名的目录，用于存放相关资源文件，比如图片啥的。最后就是自动的测试脚本了，暂时不用管。</p>
+<h1 id="三-编写publisher节点">三、编写publisher节点</h1>
+<p>在源代码的存放目录新建一个名为publisher_member_function.py的python文件，publisher节点示例如下，</p>
+<pre><code class="language-python">import rclpy # ROS提供的python接口
+from rclpy.node import Node  # 应该是ROS节点的父类了
+
+from std_msgs.msg import String # 从标准信息类型库中导入字符串类型，其实就是数据类型
+
+
+class MinimalPublisher(Node): # 定义类并继承Node
+
+    def __init__(self):
+        super().__init__('minimal_publisher')
+        self.publisher_ = self.create_publisher(String, 'topic', 10) # 创建一个发布者，该发布者在一个名为'topic'（可以定义为其他名字）的主题上发布一个String类型的信息，10表示缓冲队列的大小，队列大小是一项必需的 QoS（服务质量）设置，如果订阅者接收消息的速度不够快，它会限制排队消息的数量。
+        timer_period = 0.5  # seconds
+        self.timer = self.create_timer(timer_period, self.timer_callback) # 创建一个计时器，该计时器按一定时间间隔（0.5秒）调用回调函数self.timer_callback
+        self.i = 0
+
+    def timer_callback(self): # 回调函数，构造并发布信息
+        msg = String()
+        msg.data = 'Hello World: %d' % self.i
+        self.publisher_.publish(msg) # 发布信息（这是给订阅者发布的）
+        self.get_logger().info('Publishing: &quot;%s&quot;' % msg.data) # 同时还发布到终端 console
+        self.i += 1
+
+
+def main(args=None):
+    rclpy.init(args=args) # 初始化节点
+
+    minimal_publisher = MinimalPublisher() # 实例化发布者节点
+
+    rclpy.spin(minimal_publisher) # 启动发布者节点
+
+    # Destroy the node explicitly
+    # (optional - otherwise it will be done automatically
+    # when the garbage collector destroys the node object)
+    minimal_publisher.destroy_node() # 销毁发布者节点
+    rclpy.shutdown() # 关闭节点
+
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+<p>因为我们在发布者节点中调用了两个库：rclpy和std_msgs，这两个库是运行时需要的，数据执行依赖，所以我们打开这个包下的package.xml文件，添加以下两行，</p>
+<pre><code class="language-xml">&lt;exec_depend&gt;rclpy&lt;/exec_depend&gt;
+&lt;exec_depend&gt;std_msgs&lt;/exec_depend&gt;
+</code></pre>
+<p>然后，我们需要为程序调用定义入口，打开setup.py文件，添加如下代码，</p>
+<pre><code class="language-python">entry_points={
+        'console_scripts': [
+                'talker = py_pubsub.publisher_member_function:main',
+        ],
+},
+</code></pre>
+<p>其中，talker是自定义的名字，调用时如下所示，</p>
+<pre><code class="language-bash">$ ros2 run py_pubsub talker
+</code></pre>
+<h1 id="四-编写subscriber节点">四、编写subscriber节点</h1>
+<p>该节点简单接受publisher发布的信息并打印到终端，</p>
+<pre><code class="language-python">import rclpy
+from rclpy.node import Node
+
+from std_msgs.msg import String
+
+
+class MinimalSubscriber(Node):
+
+    def __init__(self):
+        super().__init__('minimal_subscriber')
+        self.subscription = self.create_subscription(
+            String,
+            'topic',
+            self.listener_callback,
+            10) # 新建订阅者，接收'topic'的数据并调用self.listener_callback函数
+        self.subscription  # prevent unused variable warning
+
+    def listener_callback(self, msg):
+        self.get_logger().info('I heard: &quot;%s&quot;' % msg.data) # 打印到终端
+
+
+def main(args=None):
+    rclpy.init(args=args)
+
+    minimal_subscriber = MinimalSubscriber()
+
+    rclpy.spin(minimal_subscriber)
+
+    # Destroy the node explicitly
+    # (optional - otherwise it will be done automatically
+    # when the garbage collector destroys the node object)
+    minimal_subscriber.destroy_node()
+    rclpy.shutdown()
+
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+<p>由于它和发布者程序调用的依赖是一样的，所以我们不需要再一次添加依赖，但是需要给它添加执行入口，打开setup.py，按如下所示添加，</p>
+<pre><code class="language-python">entry_points={
+        'console_scripts': [
+                'talker = py_pubsub.publisher_member_function:main',
+                'listener = py_pubsub.subscriber_member_function:main',
+        ],
+},
+</code></pre>
+<h1 id="五-编译与运行">五、编译与运行</h1>
+<p>按照惯例，编译前检查一下依赖，</p>
+<pre><code class="language-bash">$ rosdepc install -i --from-path src --rosdistro humble -y
+</code></pre>
+<p>rosdepc可以自定义很多参数，我们看到多少学多少，这里--rosdistro humble是指定ROS版本，不指定也行，这是多版本混合开发才需要的。</p>
+<p>ROS2采用的编译器是colcon，回到工作空间的根目录ros2_ws，执行编译，</p>
+<pre><code class="language-bash">$ colcon build --packages-select py_pubsub
+</code></pre>
+<p>--packages-select py_pubsub是指定只编译py_pubsub，如果不指定，直接执行colcon build会编译整个工作空间中所有的包。</p>
+<p>编译之后，我们会发现工作空间中多了三个目录，build/用于存放编译过程的中间文件，install/就是安装目录，就是我们把刚才的py_pubsub包安装到这里了，log/顾名思义日志文件。</p>
+<pre><code class="language-bash">ros2_ws/
+    build/
+    install/
+    log/
+    src/
+</code></pre>
+<p>我们要使用刚编译的py_pubsub，还需要执行以下以下命令来配置环境变量，</p>
+<pre><code class="language-bash">$ source install/setup.bash
+</code></pre>
+<p>运行发布者节点，</p>
+<pre><code class="language-bash">$ ros2 run py_pubsub talker
+[INFO] [minimal_publisher]: Publishing: &quot;Hello World: 0&quot;
+[INFO] [minimal_publisher]: Publishing: &quot;Hello World: 1&quot;
+[INFO] [minimal_publisher]: Publishing: &quot;Hello World: 2&quot;
+[INFO] [minimal_publisher]: Publishing: &quot;Hello World: 3&quot;
+[INFO] [minimal_publisher]: Publishing: &quot;Hello World: 4&quot;
+...
+</code></pre>
+<p>运行订阅者节点，</p>
+<pre><code class="language-bash">$ ros2 run py_pubsub listener
+[INFO] [minimal_subscriber]: I heard: &quot;Hello World: 10&quot;
+[INFO] [minimal_subscriber]: I heard: &quot;Hello World: 11&quot;
+[INFO] [minimal_subscriber]: I heard: &quot;Hello World: 12&quot;
+[INFO] [minimal_subscriber]: I heard: &quot;Hello World: 13&quot;
+[INFO] [minimal_subscriber]: I heard: &quot;Hello World: 14&quot;
+</code></pre>
+<p>好了！至此入门ros开发第一课结束了，从开发、编译、运行整个流程都走了一遍了，下一步学习服务通信的开发！</p>
+
+<span id="footnote"></span>
+<div id = "warn"></div>
+</div>
+<div class="toc-container"><ul class="markdownIt-TOC">
+<li><a href="#%E4%B8%80-%E6%96%B0%E5%BB%BA%E5%B7%A5%E4%BD%9C%E7%A9%BA%E9%97%B4">一、新建工作空间</a></li>
+<li><a href="#%E4%BA%8C-%E6%96%B0%E5%BB%BA%E5%8C%85">二、新建包</a>
+<ul>
+<li><a href="#21-packagexml">2.1、package.xml</a></li>
+<li><a href="#22-setuppy">2.2、setup.py</a></li>
+<li><a href="#23-setupcfg">2.3、setup.cfg</a></li>
+<li><a href="#24-%E5%85%B6%E4%BB%96">2.4、其他</a></li>
+</ul>
+</li>
+<li><a href="#%E4%B8%89-%E7%BC%96%E5%86%99publisher%E8%8A%82%E7%82%B9">三、编写publisher节点</a></li>
+<li><a href="#%E5%9B%9B-%E7%BC%96%E5%86%99subscriber%E8%8A%82%E7%82%B9">四、编写subscriber节点</a></li>
+<li><a href="#%E4%BA%94-%E7%BC%96%E8%AF%91%E4%B8%8E%E8%BF%90%E8%A1%8C">五、编译与运行</a></li>
+</ul>
+</div>
+</div>
+<div id="fullPage"><canvas id="canvas"></canvas></div>
+</article>
+<div id="eof"><span>EOF</span></div><div class="round-shape-one"></div>
+<section>
+<div class="doc_comments">
+
+	  
+		<div id="gitalk-container"></div>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/qyxtim/Static@3.8/gitalk.min.js"></script><link href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.css"rel="stylesheet"><script>var gitalk=new Gitalk({clientID:"e92872ae2da2976f32ca",clientSecret:"966ed19d803936e67d1eff80ec616cb4f6c2d57d",repo:"chenjie04.github.io",owner:"chenjie04",admin:["chenjie04"],id:(location.pathname).substring(0, 49),distractionFreeMode:false});gitalk.render("gitalk-container");</script>
+	  
+		  
+	  
+
+</div></section>
+</div></div></div><script>
+"use strict";!function(){for(var n=document.getElementsByTagName("pre"),e=n.length,s=0;s<e;s++){n[s].innerHTML='<span class="line-number"></span>'+n[s].innerHTML+'<span class="cl"></span>';for(var a=n[s].innerHTML.split(/\n/).length,r=0;r<a-1;r++){n[s].getElementsByTagName("span")[0].innerHTML+="<span>"+(r+1)+"</span>"}}}();
+let mainNavLinks=document.querySelectorAll(".markdownIt-TOC a");window.addEventListener("scroll",event=>{let fromTop=window.scrollY;mainNavLinks.forEach((link,index)=>{let section=document.getElementById(decodeURI(link.hash).substring(1));let nextSection=null
+if(mainNavLinks[index+1]){nextSection=document.getElementById(decodeURI(mainNavLinks[index+1].hash).substring(1));}
+if(section.offsetTop<=fromTop){if(nextSection){if(nextSection.offsetTop>fromTop){link.classList.add("currentToc");}else{link.classList.remove("currentToc");}}else{link.classList.add("currentToc");}}else{link.classList.remove("currentToc");}});});
+var h=document.documentElement,b=document.body,st="scrollTop",sh="scrollHeight",progress=document.querySelector(".progress"),scroll;document.addEventListener("scroll",function(){scroll=(h[st]||b[st])/((h[sh]||b[sh])-h.clientHeight)*100;progress.style.setProperty("--scroll",scroll+"%")});
+var wxScale=new WxScale({fullPage:document.querySelector("#fullPage"),canvas:document.querySelector("#canvas")});var imgBox=document.querySelectorAll("#md_block img");for(var i=0;i<imgBox.length;i++){imgBox[i].onclick=function(e){wxScale.start(this)}};
+</script>
+<a id="scrollUp" href="#top" style="position: fixed; z-index: 2147483647; display: block;"></a><div class="footer animated fadeInDown"><div class="site_footer"><div class="mysocials"><div class="my_socials"></div></div><div class="copyright"id="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>Copyright © 2018-2020 <a href="https://chenjie04.github.io" style="margin:0;">chenjie04&#39;s blog</a>.</div>
+<span style="display: inline;margin-right:15px;">👁<strong><span id="busuanzi_value_site_uv"></span></strong></span><span id="busuanzi_container_page_pv" style="display: inline;"><span>📚<strong>31</strong> posts</span></div></div>
+<script>
+console.log("\n %c \u26a1Theme: Bitcron-pro Author's Blog:https://blog.blinkstar.cn  Writen By Serence  \n\n", "color: #ffffff; background: rgba(49, 49, 49, 0.85); padding:5px 0;border-radius:5px;", );
+</script>
+<script src="https://cdn.jsdelivr.net/npm/instant.page@3.0.0/instantpage.min.js" type="module" defer></script>
+<script type="text/javascript" async src="https://chenjie04.github.io/media/js/prism.js"></script>
+</body>
+</html>

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="shortcut icon" href="https://chenjie04.github.io/favicon.ico" type="image/x-icon" /><meta name="viewport"content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/><meta name="apple-mobile-web-app-capable"content="yes"/><meta name="apple-mobile-web-app-status-bar-style"content="black"/><meta name="format-detection"content="telephone=no"/><meta name="renderer"content="webkit"><meta name="description"content="温故而知新"><meta charset="UTF-8"><title>ROS2开发笔记——动作（action）样例（五） | chenjie04&#39;s blog</title>
+<link href="https://chenjie04.github.io/styles/main.css" type="text/css" rel="stylesheet" /><link href="https://at.alicdn.com/t/font_1621793_zatzzgvf30g.css" type="text/css" rel="stylesheet" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css"><script async src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.min.js"></script><script src="https://chenjie04.github.io/media/js/magnify.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+<script type="text/javascript">function btn_toggle(){document.getElementById("hn").classList.contains("no-js")?document.getElementById("hn").classList.remove("no-js"):document.getElementById("hn").classList.add("no-js")}</script>
+
+<link rel="canonical" href="https://chenjie04.github.io/post/ros2-kai-fa-bi-ji-dong-zuo-actionyang-li/" />
+</head>
+<body>
+<div class="progress"></div><style>.progress{background:linear-gradient(to right,#87ceeb var(--scroll),transparent 0);background-repeat:no-repeat;position:fixed;width:100%;height:4px;z-index:1}</style><div class="darkmode-background"></div><div class="darkmode-layer"></div>
+<noscript><p class="warn" >本页面需要浏览器支持（启用）JavaScript</p></noscript><div class="header"><div class="logo_title"><div class="title animated fadeInDown"><a href="https://chenjie04.github.io"><img alt="logo" style="display:inline-block;" src="https://chenjie04.github.io/images/avatar.png"/></a><h1 title="chenjie04&#39;s blog" class="weaklink"><a  href="/">chenjie04&#39;s blog</a></h1>
+
+<div class="navbar weaklink">
+<div class="normal_nav">
+<div class="bitcron_nav_container"><div class="bitcron_nav"><div class="bitcron_nav"><div style="display:flex;justify-content:center;"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul></nav>
+<div style="float:right;margin-top:1em"><form id="gridea-search-form" data-update="1578893743252" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="Search..."></form></div><div style="margin-left:0.5em;margin-top:1.2em"><input id="switch_default" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+<div class="clear clear_nav_inline_end"></div></div></div><div class="clear clear_nav_end"></div></div></div><div class="hamberger" href="javascript:void(0)" onclick="btn_toggle();"><i class="iconfont icon-category"></i></div></div></div></div>
+<div id="hn" class="no-js hidden_nav animated fadeInDown"><div class="bitcron_nav_container"><div class="bitcron_nav"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul><div class="clear clear_nav_inline_end"></div></nav></div><div class="clear clear_nav_end"></div></div>
+<div style="display:flex;justify-content:center;inline-block;text-align:center;margin-top:7%"><div><form id="gridea-search-form" data-update="1690208408768" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q"  placeholder="Search..." /></form></div><div style="margin-left:0.5em"><input id="switch_default_h" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+</div></div>
+<script>function enableDarkmode(){document.body.classList.add("darkmode"),document.getElementById("switch_default").checked=1,document.getElementById("switch_default_h").checked=1}function removeDarkmode(){document.body.classList.remove("darkmode"),document.getElementById("switch_default").checked=0,document.getElementById("switch_default_h").checked=0}function getCookie(a){var b,c=new RegExp("(^| )"+a+"=([^;]*)(;|$)");return(b=document.cookie.match(c))?unescape(b[2]):null}cookie=getCookie("darkmode"),"enable"==cookie&&enableDarkmode(),window.matchMedia("(prefers-color-scheme: dark)").matches&&"disable"!==cookie&&(enableDarkmode(),document.cookie="darkmode=enable; path=/");var mobileBtn=function(){1==document.getElementById("switch_default").checked?(enableDarkmode(),document.cookie="darkmode=enable; path=/"):(removeDarkmode(),document.cookie="darkmode=disable; path=/")};</script>
+
+<div class="main"><div class="main-inner"><div class="content">
+<article class="post">
+<h2 class="post_title sm_margin"><a>ROS2开发笔记——动作（action）样例（五）</a></h2>
+<script>function lan(){if(document.getElementById("lan").innerText=="繁"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_tw.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="简"}else{if(document.getElementById("lan").innerText=="簡"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_cn.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="繁"}}};</script>
+<section class="post_details"><i class="iconfont icon-calendar"></i><span style="margin-right:15px"> 2023-05-21</span><i class="iconfont icon-browse"></i><span style="margin-right:15px"> <span id="busuanzi_value_page_pv"></span> Views</span><i class="iconfont icon-category"></i><span class="weaklink" style="margin-right:15px"></span><i class="iconfont icon-caret-down"></i><span style="margin-right:15px">970字</span><i class="iconfont icon-naozhong"></i><span style="margin-right:15px">5 min read</span><a id="lan" href="javascript:void(0);"onclick="lan();"title="调整简繁体" style="margin-right:15px;">繁</a>
+</section>
+
+<div style="display:flex">
+<div class="md_block" id="md_block">
+<div class="round-shape-one"></div>
+<p>Action是基于topic和service之上的通信方式，使用于那些需要较长时间执行的任务。Action通信示例如下，<br>
+<img src="https://docs.ros.org/en/humble/_images/Action-SingleActionClient.gif" alt="" loading="lazy"></p>
+<p>下面，我们将通过一个计算斐波那契 (Fibonacci)数列的例子演示action通信。在斐波那契数列中第一和第二个元素分别为0和1，然后其余每位元素是其前两位元素之和，因此需要一步步递归计算，属于需要较长时间执行的任务。</p>
+<p>在数学上，斐波那契数定义如下，</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mo>∗</mo><msub><mi>F</mi><mn>0</mn></msub><mo>=</mo><mn>0</mn><mspace linebreak="newline"></mspace><mo>∗</mo><msub><mi>F</mi><mn>1</mn></msub><mo>=</mo><mn>1</mn><mspace linebreak="newline"></mspace><mo>∗</mo><msub><mi>F</mi><mi>n</mi></msub><mo>=</mo><msub><mi>F</mi><mrow><mi>n</mi><mo>−</mo><mn>1</mn></mrow></msub><mo>+</mo><msub><mi>F</mi><mrow><mi>n</mi><mo>−</mo><mn>2</mn></mrow></msub><mo>(</mo><mi>n</mi><mo>≤</mo><mn>2</mn><mo>)</mo><mspace linebreak="newline"></mspace></mrow><annotation encoding="application/x-tex">* F_{0} = 0 \\
+* F_{1} = 1 \\
+* F_{n} = F_{n-1} + F_{n-2} (n \leq 2) \\
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord">∗</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.46528em;vertical-align:0em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.891661em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.301108em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="mbin mtight">−</span><span class="mord mtight">2</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault">n</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mclose">)</span></span><span class="mspace newline"></span></span></span></span></p>
+<h1 id="一-action通信数据结构">一、Action通信数据结构</h1>
+<p>新建包</p>
+<pre><code class="language-bash">$ mkdir -p ros2_ws/src #you can reuse existing workspace with this naming convention
+$ cd ros2_ws/src
+$ ros2 pkg create action_tutorials_interfaces
+</code></pre>
+<pre><code class="language-bash">$ cd action_tutorials_interfaces
+$ mkdir action
+</code></pre>
+<p>在action目录下新建接口文件Fibonacci.action。</p>
+<p>Action通信构建于topic和service之上，客户端发起请求，服务端响应并返回结果，期间需要不断反馈任务进行进度，因此action通信的数据结构应当由以下三部分构成，</p>
+<pre><code class="language-bash"># Request
+---
+# Result
+---
+# Feedback
+</code></pre>
+<p>首先，客户端发起的请求是求几阶的斐波那契数列，因此请求应该是整型数；服务端应该将对应的数列返回，因此结果应该是整型数组；而反馈是计算的中间结果，因此同样是整型数组。根据上述分析，定义数据结构如下，</p>
+<pre><code class="language-C++">int32 order
+---
+int32[] sequence
+---
+int32[] partial_sequence
+</code></pre>
+<p>更新CMakeList.txt</p>
+<pre><code class="language-C++">find_package(rosidl_default_generators REQUIRED)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  &quot;action/Fibonacci.action&quot;
+)
+</code></pre>
+<p>更新package.xml</p>
+<pre><code class="language-xml">&lt;buildtool_depend&gt;rosidl_default_generators&lt;/buildtool_depend&gt;
+
+&lt;depend&gt;action_msgs&lt;/depend&gt;
+
+&lt;member_of_group&gt;rosidl_interface_packages&lt;/member_of_group&gt;
+</code></pre>
+<p>编译</p>
+<pre><code class="language-bash"># Change to the root of the workspace
+$ cd ~/ros2_ws
+# Build
+$ colcon build
+</code></pre>
+<p>测试</p>
+<pre><code class="language-bash"># Source our workspace
+# On Windows: call install/setup.bat
+$ . install/setup.bash
+# Check that our action definition exists
+$ ros2 interface show action_tutorials_interfaces/action/Fibonacci
+</code></pre>
+<h1 id="二-action通信样例">二、Action通信样例</h1>
+<h2 id="1-环境准备">1、环境准备</h2>
+<pre><code class="language-bash">$ ros2 pkg create --build-type ament_python action_tutorials_py
+</code></pre>
+<h2 id="2-编写actionserver">2、编写ActionServer</h2>
+<p>在src/action_tutorials_py/action_tutorials_py下新建fibonacci_action_server.py文件，</p>
+<pre><code class="language-python">import time
+
+import rclpy
+from rclpy.action import ActionServer # 导入ActionServer
+from rclpy.node import Node
+
+from action_tutorials_interfaces.action import Fibonacci
+
+
+class FibonacciActionServer(Node):
+
+    def __init__(self):
+        super().__init__('fibonacci_action_server')
+        # 初始化ActionServe
+        self._action_server = ActionServer(
+            self,
+            Fibonacci,
+            'fibonacci',
+            self.execute_callback)
+
+    def execute_callback(self, goal_handle):
+        self.get_logger().info('Executing goal...') # 日志
+
+        feedback_msg = Fibonacci.Feedback() # 实例化反馈信息，注意调用方式
+        feedback_msg.partial_sequence = [0, 1] # 初始化反馈信息
+
+        for i in range(1, goal_handle.request.order): # 从goal_handle获取请求
+            # 迭代计算斐波那契数列，并将计算结果作为反馈信息发布
+            feedback_msg.partial_sequence.append(
+                feedback_msg.partial_sequence[i] + feedback_msg.partial_sequence[i-1])
+            self.get_logger().info('Feedback: {0}'.format(feedback_msg.partial_sequence))
+            goal_handle.publish_feedback(feedback_msg)
+            time.sleep(1)
+
+        goal_handle.succeed() # 任务执行完成后，将标志置为SUCCEED
+
+        result = Fibonacci.Result() # 实例化结果信息
+        result.sequence = feedback_msg.partial_sequence # 将最后一个反馈信息作为结果
+        return result
+
+
+def main(args=None):
+    rclpy.init(args=args)
+
+    fibonacci_action_server = FibonacciActionServer()
+
+    rclpy.spin(fibonacci_action_server)
+
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+<h2 id="3-编写actionclient">3、编写ActionClient</h2>
+<p>在src/action_tutorials_py/action_tutorials_py下新建fibonacci_action_client.py文件，</p>
+<pre><code class="language-python">import rclpy
+from rclpy.action import ActionClient
+from rclpy.node import Node
+
+from action_tutorials_interfaces.action import Fibonacci
+
+
+class FibonacciActionClient(Node):
+
+    def __init__(self):
+        super().__init__('fibonacci_action_client')
+        self._action_client = ActionClient(self, Fibonacci, 'fibonacci') #新建ActionClient，用过action的名字'fibonacci'与ActionServer建立通信
+
+    def send_goal(self, order): # 发起请求的函数
+        goal_msg = Fibonacci.Goal()
+        goal_msg.order = order
+
+        self._action_client.wait_for_server() # 等待服务
+
+        self._send_goal_future = self._action_client.send_goal_async(goal_msg, feedback_callback=self.feedback_callback) # 异步执行，将请求发给server，返回一个future
+
+        self._send_goal_future.add_done_callback(self.goal_response_callback) # 注册响应回调函数
+
+    def goal_response_callback(self, future):
+        goal_handle = future.result()
+        if not goal_handle.accepted:
+            self.get_logger().info('Goal rejected :(')
+            return
+
+        self.get_logger().info('Goal accepted :)')
+
+        self._get_result_future = goal_handle.get_result_async()
+        self._get_result_future.add_done_callback(self.get_result_callback)
+
+    def get_result_callback(self, future):
+        result = future.result().result
+        self.get_logger().info('Result: {0}'.format(result.sequence))
+        rclpy.shutdown()
+
+    def feedback_callback(self, feedback_msg):
+        feedback = feedback_msg.feedback
+        self.get_logger().info('Received feedback: {0}'.format(feedback.partial_sequence))
+
+
+def main(args=None):
+    rclpy.init(args=args)
+
+    action_client = FibonacciActionClient()
+
+    action_client.send_goal(10)
+
+    rclpy.spin(action_client)
+
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+<h2 id="4-更新依赖与程序执行入口">4、更新依赖与程序执行入口</h2>
+<p>package.xml</p>
+<pre><code class="language-xml">  &lt;depend&gt;action_tutorials_interfaces&lt;/depend&gt;
+
+  &lt;exec_depend&gt;rclpy&lt;/exec_depend&gt;
+</code></pre>
+<p>setup.py</p>
+<pre><code class="language-python">entry_points={
+        'console_scripts': [
+            'fibonacci_action_server = action_tutorials_py.fibonacci_action_server:main',
+            'fibonacci_action_client = action_tutorials_py.fibonacci_action_client:main',
+        ],
+    },
+</code></pre>
+<h2 id="5-编译与运行">5、编译与运行</h2>
+<pre><code class="language-bash">$ colcon build --packages-select action_tutorials_py
+</code></pre>
+<pre><code class="language-bash">$ source install/setup.bash
+$ ros2 run action_tutorials_py fibonacci_action_server
+</code></pre>
+<pre><code class="language-bash">$ source install/setup.bash
+$ ros2 run action_tutorials_py fibonacci_action_client
+</code></pre>
+
+<span id="footnote"></span>
+<div id = "warn"></div>
+</div>
+<div class="toc-container"><ul class="markdownIt-TOC">
+<li><a href="#%E4%B8%80-action%E9%80%9A%E4%BF%A1%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">一、Action通信数据结构</a></li>
+<li><a href="#%E4%BA%8C-action%E9%80%9A%E4%BF%A1%E6%A0%B7%E4%BE%8B">二、Action通信样例</a>
+<ul>
+<li><a href="#1-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87">1、环境准备</a></li>
+<li><a href="#2-%E7%BC%96%E5%86%99actionserver">2、编写ActionServer</a></li>
+<li><a href="#3-%E7%BC%96%E5%86%99actionclient">3、编写ActionClient</a></li>
+<li><a href="#4-%E6%9B%B4%E6%96%B0%E4%BE%9D%E8%B5%96%E4%B8%8E%E7%A8%8B%E5%BA%8F%E6%89%A7%E8%A1%8C%E5%85%A5%E5%8F%A3">4、更新依赖与程序执行入口</a></li>
+<li><a href="#5-%E7%BC%96%E8%AF%91%E4%B8%8E%E8%BF%90%E8%A1%8C">5、编译与运行</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="fullPage"><canvas id="canvas"></canvas></div>
+</article>
+<div id="eof"><span>EOF</span></div><div class="round-shape-one"></div>
+<section>
+<div class="doc_comments">
+
+	  
+		<div id="gitalk-container"></div>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/qyxtim/Static@3.8/gitalk.min.js"></script><link href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.css"rel="stylesheet"><script>var gitalk=new Gitalk({clientID:"e92872ae2da2976f32ca",clientSecret:"966ed19d803936e67d1eff80ec616cb4f6c2d57d",repo:"chenjie04.github.io",owner:"chenjie04",admin:["chenjie04"],id:(location.pathname).substring(0, 49),distractionFreeMode:false});gitalk.render("gitalk-container");</script>
+	  
+		  
+	  
+
+</div></section>
+</div></div></div><script>
+"use strict";!function(){for(var n=document.getElementsByTagName("pre"),e=n.length,s=0;s<e;s++){n[s].innerHTML='<span class="line-number"></span>'+n[s].innerHTML+'<span class="cl"></span>';for(var a=n[s].innerHTML.split(/\n/).length,r=0;r<a-1;r++){n[s].getElementsByTagName("span")[0].innerHTML+="<span>"+(r+1)+"</span>"}}}();
+let mainNavLinks=document.querySelectorAll(".markdownIt-TOC a");window.addEventListener("scroll",event=>{let fromTop=window.scrollY;mainNavLinks.forEach((link,index)=>{let section=document.getElementById(decodeURI(link.hash).substring(1));let nextSection=null
+if(mainNavLinks[index+1]){nextSection=document.getElementById(decodeURI(mainNavLinks[index+1].hash).substring(1));}
+if(section.offsetTop<=fromTop){if(nextSection){if(nextSection.offsetTop>fromTop){link.classList.add("currentToc");}else{link.classList.remove("currentToc");}}else{link.classList.add("currentToc");}}else{link.classList.remove("currentToc");}});});
+var h=document.documentElement,b=document.body,st="scrollTop",sh="scrollHeight",progress=document.querySelector(".progress"),scroll;document.addEventListener("scroll",function(){scroll=(h[st]||b[st])/((h[sh]||b[sh])-h.clientHeight)*100;progress.style.setProperty("--scroll",scroll+"%")});
+var wxScale=new WxScale({fullPage:document.querySelector("#fullPage"),canvas:document.querySelector("#canvas")});var imgBox=document.querySelectorAll("#md_block img");for(var i=0;i<imgBox.length;i++){imgBox[i].onclick=function(e){wxScale.start(this)}};
+</script>
+<a id="scrollUp" href="#top" style="position: fixed; z-index: 2147483647; display: block;"></a><div class="footer animated fadeInDown"><div class="site_footer"><div class="mysocials"><div class="my_socials"></div></div><div class="copyright"id="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>Copyright © 2018-2020 <a href="https://chenjie04.github.io" style="margin:0;">chenjie04&#39;s blog</a>.</div>
+<span style="display: inline;margin-right:15px;">👁<strong><span id="busuanzi_value_site_uv"></span></strong></span><span id="busuanzi_container_page_pv" style="display: inline;"><span>📚<strong>31</strong> posts</span></div></div>
+<script>
+console.log("\n %c \u26a1Theme: Bitcron-pro Author's Blog:https://blog.blinkstar.cn  Writen By Serence  \n\n", "color: #ffffff; background: rgba(49, 49, 49, 0.85); padding:5px 0;border-radius:5px;", );
+</script>
+<script src="https://cdn.jsdelivr.net/npm/instant.page@3.0.0/instantpage.min.js" type="module" defer></script>
+<script type="text/javascript" async src="https://chenjie04.github.io/media/js/prism.js"></script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="shortcut icon" href="https://chenjie04.github.io/favicon.ico" type="image/x-icon" /><meta name="viewport"content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/><meta name="apple-mobile-web-app-capable"content="yes"/><meta name="apple-mobile-web-app-status-bar-style"content="black"/><meta name="format-detection"content="telephone=no"/><meta name="renderer"content="webkit"><meta name="description"content="温故而知新"><meta charset="UTF-8"><title>mmdetection-3.x学习笔记——数据集相关配置（coco_detection.py） | chenjie04&#39;s blog</title>
+<link href="https://chenjie04.github.io/styles/main.css" type="text/css" rel="stylesheet" /><link href="https://at.alicdn.com/t/font_1621793_zatzzgvf30g.css" type="text/css" rel="stylesheet" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css"><script async src="https://cdn.jsdelivr.net/npm/busuanzi@2.3.0/bsz.pure.mini.min.js"></script><script src="https://chenjie04.github.io/media/js/magnify.min.js"></script><script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+<script type="text/javascript">function btn_toggle(){document.getElementById("hn").classList.contains("no-js")?document.getElementById("hn").classList.remove("no-js"):document.getElementById("hn").classList.add("no-js")}</script>
+
+<link rel="canonical" href="https://chenjie04.github.io/post/mmdetection-3x-xue-xi-bi-ji-shu-ju-ji-xiang-guan-pei-zhi-schedule_1xpy/" />
+</head>
+<body>
+<div class="progress"></div><style>.progress{background:linear-gradient(to right,#87ceeb var(--scroll),transparent 0);background-repeat:no-repeat;position:fixed;width:100%;height:4px;z-index:1}</style><div class="darkmode-background"></div><div class="darkmode-layer"></div>
+<noscript><p class="warn" >本页面需要浏览器支持（启用）JavaScript</p></noscript><div class="header"><div class="logo_title"><div class="title animated fadeInDown"><a href="https://chenjie04.github.io"><img alt="logo" style="display:inline-block;" src="https://chenjie04.github.io/images/avatar.png"/></a><h1 title="chenjie04&#39;s blog" class="weaklink"><a  href="/">chenjie04&#39;s blog</a></h1>
+
+<div class="navbar weaklink">
+<div class="normal_nav">
+<div class="bitcron_nav_container"><div class="bitcron_nav"><div class="bitcron_nav"><div style="display:flex;justify-content:center;"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul></nav>
+<div style="float:right;margin-top:1em"><form id="gridea-search-form" data-update="1578893743252" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="Search..."></form></div><div style="margin-left:0.5em;margin-top:1.2em"><input id="switch_default" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+<div class="clear clear_nav_inline_end"></div></div></div><div class="clear clear_nav_end"></div></div></div><div class="hamberger" href="javascript:void(0)" onclick="btn_toggle();"><i class="iconfont icon-category"></i></div></div></div></div>
+<div id="hn" class="no-js hidden_nav animated fadeInDown"><div class="bitcron_nav_container"><div class="bitcron_nav"><nav class="mixed_site_nav_wrap site_nav_wrap"><ul class="mixed_site_nav site_nav sm sm-base">	<li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/" class="selected active current nav__item" >首页</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/archives" class="selected active current nav__item" >归档</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/tags" class="selected active current nav__item" >标签</a></li><li><a id="d2ef19af68cc211e98f8a0242ac110003" href="/post/about" class="selected active current nav__item" >关于</a></li></ul><div class="clear clear_nav_inline_end"></div></nav></div><div class="clear clear_nav_end"></div></div>
+<div style="display:flex;justify-content:center;inline-block;text-align:center;margin-top:7%"><div><form id="gridea-search-form" data-update="1690208408768" action="/search/index.html"><input class="search-input" autocomplete="off" spellcheck="false" name="q"  placeholder="Search..." /></form></div><div style="margin-left:0.5em"><input id="switch_default_h" onclick="mobileBtn()" type="checkbox" class="switch_default"><label for="switch_default" class="toggleBtn"></label></div></div>
+</div></div>
+<script>function enableDarkmode(){document.body.classList.add("darkmode"),document.getElementById("switch_default").checked=1,document.getElementById("switch_default_h").checked=1}function removeDarkmode(){document.body.classList.remove("darkmode"),document.getElementById("switch_default").checked=0,document.getElementById("switch_default_h").checked=0}function getCookie(a){var b,c=new RegExp("(^| )"+a+"=([^;]*)(;|$)");return(b=document.cookie.match(c))?unescape(b[2]):null}cookie=getCookie("darkmode"),"enable"==cookie&&enableDarkmode(),window.matchMedia("(prefers-color-scheme: dark)").matches&&"disable"!==cookie&&(enableDarkmode(),document.cookie="darkmode=enable; path=/");var mobileBtn=function(){1==document.getElementById("switch_default").checked?(enableDarkmode(),document.cookie="darkmode=enable; path=/"):(removeDarkmode(),document.cookie="darkmode=disable; path=/")};</script>
+
+<div class="main"><div class="main-inner"><div class="content">
+<article class="post">
+<h2 class="post_title sm_margin"><a>mmdetection-3.x学习笔记——数据集相关配置（coco_detection.py）</a></h2>
+<script>function lan(){if(document.getElementById("lan").innerText=="繁"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_tw.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="简"}else{if(document.getElementById("lan").innerText=="簡"){var s=document.getElementById("tongwenlet_cn");if(s!=null){document.body.removeChild(s)}var s=document.createElement("script");s.language="javascript";s.type="text/javascript";s.src="https://cdn.jsdelivr.net/gh/qyxtim/Static@1.1/bookmarklet_cn.js";s.id="tongwenlet_cn";document.body.appendChild(s);document.getElementById("lan").innerHTML="繁"}}};</script>
+<section class="post_details"><i class="iconfont icon-calendar"></i><span style="margin-right:15px"> 2023-03-28</span><i class="iconfont icon-browse"></i><span style="margin-right:15px"> <span id="busuanzi_value_page_pv"></span> Views</span><i class="iconfont icon-category"></i><span class="weaklink" style="margin-right:15px">	<a href="https://chenjie04.github.io/tag/MzsbKaVdP/" class="tag">mmdetection-3.x</a></span><i class="iconfont icon-caret-down"></i><span style="margin-right:15px">1289字</span><i class="iconfont icon-naozhong"></i><span style="margin-right:15px">6 min read</span><a id="lan" href="javascript:void(0);"onclick="lan();"title="调整简繁体" style="margin-right:15px;">繁</a>
+</section>
+
+<div style="display:flex">
+<div class="md_block" id="md_block">
+<div class="round-shape-one"></div>
+<p>默认采用coco数据集，结构如下</p>
+<pre><code class="language-python">├── data
+│   ├── coco
+│   │   ├── annotations
+│   │   │   │--- instances_train2017.json
+│   │   │   │--- instances_val2017.json
+│   │   │   │--- image_info_test-dev2017.json    
+│   │   │   │--- …… 
+│   │   ├── train2017
+│   │   │   │--- *.jpg（118287张图片）
+│   │   ├── val2017
+│   │   │   │--- *.jpg（5000张图片）
+│   │   ├── test2017
+│   │   │   │--- *.jpg（40670张图片）
+</code></pre>
+<pre><code class="language-python"># dataset settings
+dataset_type = 'CocoDataset'  # 数据集类型，这将被用来定义数据集。
+data_root = 'data/coco/'  # 数据的根路径。
+
+# file_client_args = dict(
+#     backend='petrel',
+#     path_mapping=dict({
+#         './data/': 's3://openmmlab/datasets/detection/',
+#         'data/': 's3://openmmlab/datasets/detection/'
+#     }))
+file_client_args = dict(backend='disk')  # 文件读取后端的配置，默认从硬盘读取，上面的好像是网络存储设备
+
+train_pipeline = [ # 训练数据处理流程
+    # 第 1 个流程，从文件路径里加载图像。
+    dict(type='LoadImageFromFile', file_client_args=file_client_args), 
+    # 第 2 个流程，对于当前图像，加载它的注释信息。
+    # with_bbox=True表示是否使用标注框(bounding box)， 目标检测需要设置为 True。
+    # 如果同时做语义分割，需要设with_mask=True 表示是否使用 instance mask。
+    # poly2mask=False表示 是否将 polygon mask 转化为 instance mask, 设置为 False 以加速和节省内存。
+    dict(type='LoadAnnotations', with_bbox=True),
+    # 变化图像和其标注大小的流程。
+    dict(
+        type='Resize', 
+        scale=(1333, 800),  # 图像的最大尺寸
+        keep_ratio=True), # 是否保持图像的长宽比。
+    # 翻转图像和其标注的数据增广流程。
+    dict(
+        type='RandomFlip',  
+        prob=0.5), # 翻转图像的概率。
+    # 将数据转换为检测器输入格式的流程
+    # 数据增广过程中会产生很多中间数据并存放在同一个字典中，该流程主要是捡出目标检测需要的数据
+    dict(type='PackDetInputs') 
+]
+test_pipeline = [ # 测试数据处理流程
+    # 第 1 个流程，从文件路径里加载图像。
+    dict(type='LoadImageFromFile', file_client_args=file_client_args),
+    # 变化图像大小的流程。
+    dict(type='Resize', scale=(1333, 800), keep_ratio=True),
+    # 第 2 个流程，对于当前图像，加载它的注释信息。
+    # If you don't have a gt annotation, delete the pipeline
+    dict(type='LoadAnnotations', with_bbox=True),
+    # 将数据转换为检测器输入格式的流程
+    dict(
+        type='PackDetInputs',
+        meta_keys=('img_id', 'img_path', 'ori_shape', 'img_shape',
+                   'scale_factor'))
+]
+train_dataloader = dict( # 训练 dataloader 配置
+    batch_size=2, # 单个 GPU 的 batch size
+    num_workers=2, # 单个 GPU 分配的数据加载线程数
+    persistent_workers=True, # 如果设置为 True，dataloader 在迭代完一轮之后不会关闭数据读取的子进程，可以加速训练
+    sampler=dict(
+        type='DefaultSampler',  # 默认的训练数据采样器，同时支持分布式和非分布式训练，其实就是打乱图片顺序
+        shuffle=True), # 随机打乱每个轮次训练数据的顺序
+    batch_sampler=dict(type='AspectRatioBatchSampler'), # 批数据采样器，用于确保每一批次内的数据拥有相似的长宽比，可用于节省显存
+    dataset=dict( # 训练数据集的配置
+        type=dataset_type,
+        data_root=data_root,
+        ann_file='annotations/instances_train2017.json', # 标注文件路径
+        data_prefix=dict(img='train2017/'), # 图片路径前缀
+        filter_cfg=dict(filter_empty_gt=True, min_size=32), # 图片和标注的过滤配置
+        pipeline=train_pipeline))  # 这是由之前创建的 train_pipeline 定义的数据处理流程。
+
+# 由上可见，mmdetection采用的是pytorch标准的数据集加载过程，
+# 首先定义数据增广的流程train_pipeline，然后传入CocoDataset类，该类需要实现 def __getitem__(self, idx) 和  def __len__(self)，然后把CocoDataset传入DataLoaders进行封装，DataLoaders可是实现数据批量获取
+
+val_dataloader = dict( # 验证 dataloader 配置
+    batch_size=1, # 单个 GPU 的 Batch size。如果 batch-szie &gt; 1，组成 batch 时的额外填充会影响模型推理精度
+    num_workers=2,
+    persistent_workers=True,
+    drop_last=False, # 是否丢弃最后未能组成一个批次的数据
+    sampler=dict(type='DefaultSampler', shuffle=False), # 验证和测试时不打乱数据顺序
+    dataset=dict(
+        type=dataset_type,
+        data_root=data_root,
+        ann_file='annotations/instances_val2017.json',
+        data_prefix=dict(img='val2017/'),
+        test_mode=True,  # 开启测试模式，避免数据集过滤图片和标注
+        pipeline=test_pipeline))
+test_dataloader = val_dataloader # coco数据集的测试集不提供标注数据，所以一般就把验证集当测试集用
+
+val_evaluator = dict( # 验证过程使用的评测器
+    type='CocoMetric', # 用于评估检测和实例分割的 AR、AP 和 mAP 的 coco 评价指标
+    ann_file=data_root + 'annotations/instances_val2017.json', # 标注文件路径
+    metric='bbox', # 需要计算的评价指标，`bbox` 用于检测，还有`segm` 用于实例分割，如果同时做检测和分割，则设为 metric=['bbox', 'segm']
+    format_only=False) # 是否只将模型输出转换为 coco 的 JSON 格式并保存，这里为否
+test_evaluator = val_evaluator
+
+#由于测试数据集没有标注文件，因此 MMDetection 中的 test_dataloader 和 test_evaluator 配置通常等于val。 如果要保存在测试数据集上的检测结果，则可以像这样编写配置：
+
+# inference on test dataset and
+# format the output results for submission.
+#  注意：coco数据集并没有提供测试集的标注数据，如果想要知道测试集的准确率，
+#  则需要导出预测结果并上传到COCO服务器进行评测，此时需要启用下面的test_dataloader
+#  和test_evaluator，而且需要下载测试图片的信息放到annatations中
+#（http://images.cocodataset.org/annotations/image_info_test2017.zip）
+test_dataloader = dict(
+    batch_size=1,
+    num_workers=2,
+    persistent_workers=True,
+    drop_last=False,
+    sampler=dict(type='DefaultSampler', shuffle=False),
+    dataset=dict(
+        type=dataset_type,
+        data_root=data_root,
+        ann_file=data_root + 'annotations/image_info_test-dev2017.json', # 测试图片信息
+        data_prefix=dict(img='test2017/'),
+        test_mode=True, 
+        pipeline=test_pipeline))
+test_evaluator = dict(
+    type='CocoMetric',
+    metric='bbox',
+    format_only=True, # 这里是关键，设置为True之后只将模型输出转换为 coco 的 JSON 格式并保存
+    ann_file=data_root + 'annotations/image_info_test-dev2017.json',
+    outfile_prefix='./work_dirs/coco_detection/test') # 要保存的 JSON 文件的前缀
+
+</code></pre>
+
+<span id="footnote"></span>
+<div id = "warn"></div>
+</div>
+<div class="toc-container"></div>
+</div>
+<div id="fullPage"><canvas id="canvas"></canvas></div>
+</article>
+<div id="eof"><span>EOF</span></div><div class="round-shape-one"></div>
+<section>
+<div class="doc_comments">
+
+	  
+		<div id="gitalk-container"></div>
+		<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/qyxtim/Static@3.8/gitalk.min.js"></script><link href="https://cdn.jsdelivr.net/npm/gitalk@1.5.0/dist/gitalk.css"rel="stylesheet"><script>var gitalk=new Gitalk({clientID:"e92872ae2da2976f32ca",clientSecret:"966ed19d803936e67d1eff80ec616cb4f6c2d57d",repo:"chenjie04.github.io",owner:"chenjie04",admin:["chenjie04"],id:(location.pathname).substring(0, 49),distractionFreeMode:false});gitalk.render("gitalk-container");</script>
+	  
+		  
+	  
+
+</div></section>
+</div></div></div><script>
+"use strict";!function(){for(var n=document.getElementsByTagName("pre"),e=n.length,s=0;s<e;s++){n[s].innerHTML='<span class="line-number"></span>'+n[s].innerHTML+'<span class="cl"></span>';for(var a=n[s].innerHTML.split(/\n/).length,r=0;r<a-1;r++){n[s].getElementsByTagName("span")[0].innerHTML+="<span>"+(r+1)+"</span>"}}}();
+let mainNavLinks=document.querySelectorAll(".markdownIt-TOC a");window.addEventListener("scroll",event=>{let fromTop=window.scrollY;mainNavLinks.forEach((link,index)=>{let section=document.getElementById(decodeURI(link.hash).substring(1));let nextSection=null
+if(mainNavLinks[index+1]){nextSection=document.getElementById(decodeURI(mainNavLinks[index+1].hash).substring(1));}
+if(section.offsetTop<=fromTop){if(nextSection){if(nextSection.offsetTop>fromTop){link.classList.add("currentToc");}else{link.classList.remove("currentToc");}}else{link.classList.add("currentToc");}}else{link.classList.remove("currentToc");}});});
+var h=document.documentElement,b=document.body,st="scrollTop",sh="scrollHeight",progress=document.querySelector(".progress"),scroll;document.addEventListener("scroll",function(){scroll=(h[st]||b[st])/((h[sh]||b[sh])-h.clientHeight)*100;progress.style.setProperty("--scroll",scroll+"%")});
+var wxScale=new WxScale({fullPage:document.querySelector("#fullPage"),canvas:document.querySelector("#canvas")});var imgBox=document.querySelectorAll("#md_block img");for(var i=0;i<imgBox.length;i++){imgBox[i].onclick=function(e){wxScale.start(this)}};
+</script>
+<a id="scrollUp" href="#top" style="position: fixed; z-index: 2147483647; display: block;"></a><div class="footer animated fadeInDown"><div class="site_footer"><div class="mysocials"><div class="my_socials"></div></div><div class="copyright"id="copyright">Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>Copyright © 2018-2020 <a href="https://chenjie04.github.io" style="margin:0;">chenjie04&#39;s blog</a>.</div>
+<span style="display: inline;margin-right:15px;">👁<strong><span id="busuanzi_value_site_uv"></span></strong></span><span id="busuanzi_container_page_pv" style="display: inline;"><span>📚<strong>31</strong> posts</span></div></div>
+<script>
+console.log("\n %c \u26a1Theme: Bitcron-pro Author's Blog:https://blog.blinkstar.cn  Writen By Serence  \n\n", "color: #ffffff; background: rgba(49, 49, 49, 0.85); padding:5px 0;border-radius:5px;", );
+</script>
+<script src="https://cdn.jsdelivr.net/npm/instant.page@3.0.0/instantpage.min.js" type="module" defer></script>
+<script type="text/javascript" async src="https://chenjie04.github.io/media/js/prism.js"></script>
+</body>
+</html>
